@@ -1,0 +1,726 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#F4F1EA" />
+  <title>AURA 3.5 — Interactive Bio-Anatomy & Clinical Vault</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-silk: #F4F1EA;
+      --ink: #1C1B19;
+      --orb-primary: #8FA893;
+      --orb-secondary: #E6C8C5;
+    }
+    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-silk);
+      color: var(--ink);
+      margin: 0; padding: 0;
+      overflow: hidden;
+    }
+    .serif-display { font-family: 'Instrument Serif', serif; }
+    .silk-pill {
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 8px 24px -8px rgba(28, 27, 25, 0.06);
+    }
+    .fluid-sheet { transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease; }
+    .sheet-closed { transform: translateY(105%); opacity: 0; pointer-events: none; }
+    .sheet-open { transform: translateY(0%); opacity: 1; pointer-events: auto; }
+
+    @keyframes pulseOrgan {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.04); opacity: 1; }
+    }
+    @keyframes flowDash {
+      to { stroke-dashoffset: -40; }
+    }
+    @keyframes floatBubble {
+      0% { transform: translateY(0px) scale(0.9); opacity: 0.4; }
+      50% { transform: translateY(-6px) scale(1.1); opacity: 0.9; }
+      100% { transform: translateY(-12px) scale(0.8); opacity: 0.2; }
+    }
+    .organ-pulse { animation: pulseOrgan 4s ease-in-out infinite; transform-origin: center; }
+    .transit-stream { stroke-dasharray: 6 6; animation: flowDash 3s linear infinite; }
+    .gas-bubble { animation: floatBubble 2.5s ease-in-out infinite; }
+    .organ-zone { cursor: pointer; transition: all 0.3s ease; }
+    .organ-zone:hover { filter: brightness(0.92); }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body class="h-[100dvh] w-screen flex justify-center bg-[#E5E0D5]">
+
+  <div class="w-full max-w-md h-full bg-[#F4F1EA] flex flex-col justify-between relative overflow-hidden shadow-2xl">
+
+    <!-- PIXEL 8 NATIVE BIOMETRIC LOCK SCREEN -->
+    <div id="lockVeil" class="absolute inset-0 z-50 bg-[#F4F1EA] flex flex-col items-center justify-between p-7 text-center transition-opacity duration-400">
+      <div class="pt-4 w-full space-y-2">
+        <span class="text-[10px] uppercase tracking-[0.22em] text-[#4E6E58] font-bold block">Pixel 8 Biometric & Bio-Anatomy Vault</span>
+        <input id="geminiKeyInput" type="password" placeholder="Optional: Paste Gemini API Key" class="w-full text-xs px-4 py-3 rounded-2xl bg-white border border-black/15 text-center text-[#1C1B19] focus:outline-none shadow-sm" />
+      </div>
+
+      <div class="flex flex-col items-center">
+        <div onclick="authenticatePixelBiometrics()" class="w-36 h-36 rounded-full bg-gradient-to-tr from-[#8FA893] via-[#E6C8C5] to-white shadow-xl flex flex-col items-center justify-center cursor-pointer mb-5">
+          <span class="serif-display italic text-3xl text-[#1C1B19]">Tap to</span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-[#1C1B19]/70 mt-1">Sense</span>
+        </div>
+        <h1 class="serif-display text-5xl text-[#1C1B19] tracking-tight mb-1">Aura</h1>
+        <p id="lockSubtext" class="text-xs text-[#78736A] max-w-[260px] leading-relaxed">Interactive Gut-Skin Bio-Anatomy, Molecular Food Synergy & Personalized Remedies.</p>
+      </div>
+
+      <button onclick="authenticatePixelBiometrics()" class="w-full py-3.5 rounded-full bg-[#1C1B19] text-[#F4F1EA] text-xs font-semibold shadow-lg active:scale-95 transition-transform">
+        Authenticate Fingerprint / FaceID
+      </button>
+    </div>
+
+    <!-- HEADER -->
+    <header class="relative z-20 px-4 pt-5 pb-2 flex items-center justify-between">
+      <div class="flex items-center gap-1 silk-pill rounded-full p-1">
+        <button onclick="switchPhase('Luteal')" id="phase-Luteal" class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#1C1B19] text-[#F4F1EA]">Luteal</button>
+        <button onclick="switchPhase('Period')" id="phase-Period" class="px-2.5 py-1 rounded-full text-[11px] font-medium text-[#78736A]">Flow</button>
+        <button onclick="switchPhase('Follicular')" id="phase-Follicular" class="px-2.5 py-1 rounded-full text-[11px] font-medium text-[#78736A]">Follicular</button>
+      </div>
+      <button onclick="openApiKeyModal()" class="silk-pill px-3 py-1.5 rounded-full text-[10px] font-bold text-[#1C1B19]">🔑 AI Key</button>
+    </header>
+
+    <!-- MAIN SCROLLABLE STREAM -->
+    <main class="relative z-10 flex-1 overflow-y-auto px-4 pb-28 pt-1 space-y-3.5">
+
+      <!-- 1. INTERACTIVE GUT & FACIAL BIO-ANATOMY MAP -->
+      <div class="silk-pill rounded-[28px] p-4 space-y-3">
+        <div class="flex justify-between items-center">
+          <div>
+            <span class="text-[10px] uppercase tracking-widest text-[#4E6E58] font-bold block">Live Internal Bio-Loom</span>
+            <h2 class="serif-display text-2xl text-[#1C1B19]">Interactive Gut & Skin Anatomy</h2>
+          </div>
+          <div class="flex bg-black/5 p-0.5 rounded-full text-[10px] font-semibold">
+            <button id="tabGutMap" onclick="switchAnatomyTab('gut')" class="px-2.5 py-1 rounded-full bg-[#1C1B19] text-[#F4F1EA]">Gut Tract</button>
+            <button id="tabFaceMap" onclick="switchAnatomyTab('face')" class="px-2.5 py-1 rounded-full text-[#78736A]">Face Glow</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-3 items-center bg-[#F4F1EA]/80 rounded-2xl p-3 border border-black/5">
+          <div class="col-span-6 flex justify-center items-center relative">
+            <svg id="svgGutCanvas" viewBox="0 0 200 250" class="w-full h-52">
+              <defs>
+                <radialGradient id="stomachGrad" cx="50%" cy="50%" r="50%">
+                  <stop id="stomStop1" offset="0%" stop-color="#A3C9A8" stop-opacity="0.9" />
+                  <stop id="stomStop2" offset="100%" stop-color="#4E6E58" stop-opacity="0.65" />
+                </radialGradient>
+              </defs>
+              <path d="M55,15 C40,20 30,45 32,85 C34,130 28,180 35,235 L165,235 C172,180 166,130 168,85 C170,45 160,20 145,15 Z" fill="none" stroke="#1C1B19" stroke-opacity="0.1" stroke-width="1.5" />
+              <g class="organ-zone organ-pulse" onclick="inspectOrganZone('stomach')">
+                <path id="svgStomachPath" d="M92,50 C125,45 148,68 140,98 C132,122 95,125 80,108 C68,95 78,80 90,72 Z" fill="url(#stomachGrad)" stroke="#1C1B19" stroke-width="1.2" />
+                <text x="108" y="88" font-size="8" font-weight="bold" fill="#1C1B19" text-anchor="middle">STOMACH</text>
+              </g>
+              <g class="organ-zone" onclick="inspectOrganZone('colon')">
+                <path d="M58,195 L55,125 C55,112 70,108 100,110 C130,108 145,112 145,125 L142,190 C140,205 110,205 100,215 L100,235" fill="none" stroke="#8FA893" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" />
+                <path class="transit-stream" d="M58,195 L55,125 C55,112 70,108 100,110 C130,108 145,112 145,125 L142,190 L100,215" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.8" />
+              </g>
+              <g class="organ-zone" onclick="inspectOrganZone('smallIntestine')">
+                <rect x="72" y="128" width="56" height="58" rx="18" fill="#E6C8C5" fill-opacity="0.85" stroke="#1C1B19" stroke-width="1" />
+                <text x="100" y="160" font-size="7.5" font-weight="bold" fill="#1C1B19" text-anchor="middle">DUODENUM</text>
+              </g>
+              <g id="svgGasBubblesGroup"></g>
+            </svg>
+
+            <svg id="svgFaceCanvas" viewBox="0 0 200 250" class="w-full h-52 hidden">
+              <path d="M50,60 C50,25 150,25 150,60 C155,115 145,175 100,205 C55,175 45,115 50,60 Z" fill="#FFFDF9" stroke="#1C1B19" stroke-width="1.5" />
+              <ellipse id="faceLeftEyeZone" onclick="inspectOrganZone('undereye')" class="organ-zone" cx="76" cy="98" rx="16" ry="8" fill="#8FA893" fill-opacity="0.5" />
+              <ellipse id="faceRightEyeZone" onclick="inspectOrganZone('undereye')" class="organ-zone" cx="124" cy="98" rx="16" ry="8" fill="#8FA893" fill-opacity="0.5" />
+              <text x="100" y="116" font-size="7" font-weight="bold" fill="#1C1B19" text-anchor="middle">PUFFINESS ZONE</text>
+            </svg>
+          </div>
+
+          <div class="col-span-6 space-y-2">
+            <span id="inspectorZoneTag" class="text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#1C1B19] text-[#F4F1EA] font-bold">Stomach Chamber</span>
+            <h4 id="inspectorTitle" class="serif-display text-xl text-[#1C1B19] leading-none">Optimal Churn</h4>
+            <p id="inspectorDesc" class="text-[11px] text-[#5A564F] leading-snug">Tap organ zones on the left or log a meal to inspect live simulation telemetry.</p>
+            <div id="inspectorActionPill" class="p-2 rounded-xl bg-white border border-black/10 text-[10px] text-[#1C1B19] font-medium">💡 Tap preset conflicts in meal drawer.</div>
+          </div>
+        </div>
+
+        <div class="flex gap-1.5 overflow-x-auto pb-0.5 text-[10px]">
+          <button onclick="inspectOrganZone('stomach')" class="px-2.5 py-1 rounded-full bg-white border border-black/10 font-semibold shrink-0">🔥 1. Stomach</button>
+          <button onclick="inspectOrganZone('smallIntestine')" class="px-2.5 py-1 rounded-full bg-white border border-black/10 font-semibold shrink-0">🧬 2. Duodenum</button>
+          <button onclick="inspectOrganZone('colon')" class="px-2.5 py-1 rounded-full bg-white border border-black/10 font-semibold shrink-0">🫧 3. Colon</button>
+          <button onclick="switchAnatomyTab('face'); inspectOrganZone('undereye')" class="px-2.5 py-1 rounded-full bg-white border border-black/10 font-semibold shrink-0">✨ 4. Face Map</button>
+        </div>
+      </div>
+
+      <!-- 2. DYNAMIC BIO-WHISPER & REMEDY -->
+      <div class="silk-pill rounded-[28px] p-4 space-y-2.5 border-l-4 border-[#4E6E58]">
+        <div class="flex justify-between items-center">
+          <span class="text-[10px] uppercase tracking-[0.18em] text-[#4E6E58] font-bold" id="circadianAgniBadge">🕰️ Circadian Window</span>
+          <span id="synergyScoreBadge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#1C1B19] text-[#F4F1EA]">Synergy: --%</span>
+        </div>
+        <h2 id="whisperHeadline" class="serif-display text-2xl text-[#1C1B19] leading-snug">Log your first meal</h2>
+        <p id="whisperBody" class="text-xs text-[#5A564F] leading-relaxed">Your digestive tract is clear. Snap or describe a plate below.</p>
+        <div class="bg-[#F4F1EA]/90 p-3 rounded-2xl border border-black/10 text-xs space-y-1">
+          <span class="font-bold text-[#1C1B19] block">🌿 Targeted Bio-Remedy (Anupana):</span>
+          <p id="ayurvedicRxText" class="text-[#4E6E58] font-medium leading-relaxed">Sip warm water with a slice of fresh ginger.</p>
+        </div>
+      </div>
+
+      <!-- 3. MACRO & MICRONUTRIENT MATRIX -->
+      <div class="silk-pill rounded-[28px] p-4 space-y-3">
+        <div class="flex justify-between items-baseline">
+          <span class="text-[10px] uppercase tracking-widest text-[#78736A] font-bold">🔬 Daily Macro & Micronutrient Matrix</span>
+          <span id="totalCaloriesBadge" class="serif-display text-2xl font-bold text-[#1C1B19]">0 kcal</span>
+        </div>
+
+        <div class="grid grid-cols-4 gap-1.5 text-center text-[11px]">
+          <div class="bg-white/90 p-2 rounded-xl border border-black/5">
+            <span class="text-[#78736A] text-[9px] block">Protein</span>
+            <strong id="macroProtein" class="text-[#1C1B19]">0g</strong>
+          </div>
+          <div class="bg-white/90 p-2 rounded-xl border border-black/5">
+            <span class="text-[#78736A] text-[9px] block">Net Carbs</span>
+            <strong id="macroCarbs" class="text-[#1C1B19]">0g</strong>
+          </div>
+          <div class="bg-white/90 p-2 rounded-xl border border-black/5">
+            <span class="text-[#78736A] text-[9px] block">Fiber</span>
+            <strong id="macroFiber" class="text-[#4E6E58]">0g</strong>
+          </div>
+          <div class="bg-white/90 p-2 rounded-xl border border-black/5">
+            <span class="text-[#78736A] text-[9px] block">Lipids</span>
+            <strong id="macroFat" class="text-[#1C1B19]">0g</strong>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 text-xs pt-1">
+          <div>
+            <div class="flex justify-between text-[10px] mb-1"><span>Iron (Ferritin)</span><span id="microIronVal" class="font-bold">0 / 18 mg</span></div>
+            <div class="w-full h-1.5 bg-black/5 rounded-full overflow-hidden"><div id="barIron" class="h-full bg-[#1C1B19] rounded-full" style="width: 0%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-[10px] mb-1"><span>Magnesium</span><span id="microMagVal" class="font-bold">0 / 320 mg</span></div>
+            <div class="w-full h-1.5 bg-black/5 rounded-full overflow-hidden"><div id="barMag" class="h-full bg-[#4E6E58] rounded-full" style="width: 0%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-[10px] mb-1"><span>Zinc (Skin Repair)</span><span id="microZincVal" class="font-bold">0 / 8 mg</span></div>
+            <div class="w-full h-1.5 bg-black/5 rounded-full overflow-hidden"><div id="barZinc" class="h-full bg-[#B87D6B] rounded-full" style="width: 0%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-[10px] mb-1"><span>Sodium (Puff Risk)</span><span id="microSodVal" class="font-bold">0 / 2000 mg</span></div>
+            <div class="w-full h-1.5 bg-black/5 rounded-full overflow-hidden"><div id="barSod" class="h-full bg-[#9E4747] rounded-full" style="width: 0%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. TIMELINE -->
+      <div class="silk-pill rounded-[24px] p-4 space-y-2">
+        <div class="flex justify-between items-center">
+          <span class="text-[10px] uppercase tracking-wider text-[#78736A] font-bold">Today's Bio-Log Timeline</span>
+          <button onclick="clearLocalVault()" class="text-[10px] text-[#9E4747] font-semibold">Reset Day</button>
+        </div>
+        <div id="localHistoryList" class="space-y-2 text-xs text-[#5A564F]"></div>
+      </div>
+    </main>
+
+    <!-- FLOATING BOTTOM BAR -->
+    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 p-1.5 rounded-full silk-pill shadow-xl">
+      <button onclick="openSheet('mealSheet')" class="px-5 py-3 rounded-full bg-[#1C1B19] text-[#F4F1EA] text-xs font-semibold flex items-center gap-1.5">
+        <span>📸 + Snap / Log Plate</span>
+      </button>
+      <button onclick="openSheet('gutSheet')" class="px-4 py-3 rounded-full bg-white text-[#1C1B19] text-xs font-semibold">
+        <span>◎ Gut Transit</span>
+      </button>
+    </div>
+
+    <!-- DRAWER 1: MEAL & PHOTO SCANNER -->
+    <div id="mealSheet" class="fluid-sheet sheet-closed absolute inset-0 z-40 bg-black/40 backdrop-blur-sm flex flex-col justify-end">
+      <div class="bg-[#F4F1EA] rounded-t-[32px] p-5 space-y-3.5 shadow-2xl max-h-[88dvh] overflow-y-auto">
+        <div class="flex justify-between items-center">
+          <div>
+            <span class="text-[10px] uppercase tracking-widest text-[#4E6E58] font-bold">Bio-Anatomy & Food Combination Scanner</span>
+            <h2 class="serif-display text-3xl">Snap or Describe Plate</h2>
+          </div>
+          <button onclick="closeSheets()" class="text-xs font-semibold px-3 py-1 rounded-full bg-black/5">Close</button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <label class="py-3 px-3 rounded-2xl bg-[#1C1B19] text-[#F4F1EA] text-xs font-semibold text-center cursor-pointer flex items-center justify-center gap-1.5 shadow">
+            <span>📸 Camera Snap</span>
+            <input type="file" accept="image/*" capture="environment" class="hidden" onchange="handleFoodPhoto(event)" />
+          </label>
+          <label class="py-3 px-3 rounded-2xl bg-white text-[#1C1B19] border border-black/15 text-xs font-semibold text-center cursor-pointer flex items-center justify-center gap-1.5">
+            <span>🖼️ Gallery Upload</span>
+            <input type="file" accept="image/*" class="hidden" onchange="handleFoodPhoto(event)" />
+          </label>
+        </div>
+
+        <div id="foodPhotoPreviewContainer" class="hidden relative">
+          <img id="foodPhotoPreview" class="w-full h-32 object-cover rounded-2xl border border-black/10" />
+        </div>
+
+        <div class="flex flex-wrap gap-1.5">
+          <button onclick="document.getElementById('fluidFoodInput').value='2 Paneer Parathas with Curd, Tomato Chutney & Iced Coffee'" class="px-2.5 py-1 rounded-full text-[10px] bg-white border border-black/10 font-medium">⚠️ Test Conflict: Paratha + Curd + Iced Coffee</button>
+          <button onclick="document.getElementById('fluidFoodInput').value='Palak Dal, Steamed Rice, Ghee & Masala Chai'" class="px-2.5 py-1 rounded-full text-[10px] bg-white border border-black/10 font-medium">🔗 Test Chelation: Palak Dal + Chai</button>
+          <button onclick="document.getElementById('fluidFoodInput').value='2 Steamed Idli, Toor Dal Sambar & Warm Ginger Water'" class="px-2.5 py-1 rounded-full text-[10px] bg-white border border-black/10 font-medium">✨ Test Harmonious: Idli + Sambar</button>
+        </div>
+
+        <textarea id="fluidFoodInput" rows="2" class="w-full rounded-2xl bg-white p-3 text-xs border border-black/15 focus:outline-none" placeholder="Type a meal combination or select preset above..."></textarea>
+
+        <button id="analyzeMealBtn" onclick="analyzeMealWithAI()" class="w-full py-3.5 rounded-full bg-[#1C1B19] text-[#F4F1EA] text-xs font-semibold shadow-lg">
+          🔬 Map Inside Gut Anatomy & Compute Macros
+        </button>
+      </div>
+    </div>
+
+    <!-- DRAWER 2: GUT TRANSIT -->
+    <div id="gutSheet" class="fluid-sheet sheet-closed absolute inset-0 z-40 bg-black/40 backdrop-blur-sm flex flex-col justify-end">
+      <div class="bg-[#F4F1EA] rounded-t-[32px] p-5 space-y-4 shadow-2xl">
+        <div class="flex justify-between items-center">
+          <h2 class="serif-display text-3xl">Gut Transit & Buoyancy</h2>
+          <button onclick="closeSheets()" class="text-xs font-semibold px-3 py-1 rounded-full bg-black/5">Close</button>
+        </div>
+        <div class="grid grid-cols-4 gap-2">
+          <button onclick="selectPebble(2)" id="peb-2" class="p-2.5 rounded-2xl bg-white border border-black/5 flex flex-col items-center"><span>🪨</span><span class="text-[10px] font-bold mt-1">T1-2 Dry</span></button>
+          <button onclick="selectPebble(4)" id="peb-4" class="p-2.5 rounded-2xl bg-[#1C1B19] text-[#F4F1EA] flex flex-col items-center"><span>🌿</span><span class="text-[10px] font-bold mt-1">T4 Ideal</span></button>
+          <button onclick="selectPebble(5)" id="peb-5" class="p-2.5 rounded-2xl bg-white border border-black/5 flex flex-col items-center"><span>☁️</span><span class="text-[10px] font-bold mt-1">T5 Soft</span></button>
+          <button onclick="selectPebble(6)" id="peb-6" class="p-2.5 rounded-2xl bg-white border border-black/5 flex flex-col items-center"><span>⚡</span><span class="text-[10px] font-bold mt-1">T6 Rapid</span></button>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="selectBuoyancy('float')" id="buoy-float" class="py-2.5 rounded-2xl bg-[#1C1B19] text-[#F4F1EA] text-xs font-semibold">🌊 Floats (Clean)</button>
+          <button onclick="selectBuoyancy('sink')" id="buoy-sink" class="py-2.5 rounded-2xl bg-white text-[#5A564F] border border-black/10 text-xs font-semibold">⚓ Sinks (Heavy Residue)</button>
+        </div>
+        <button onclick="updateGutState()" class="w-full py-3.5 rounded-full bg-[#1C1B19] text-[#F4F1EA] text-xs font-semibold">Update Anatomy Simulation</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentPhotoBase64 = null;
+    let currentPhotoMime = "image/jpeg";
+    let activeAnatomyZone = "stomach";
+
+    let state = {
+      phase: localStorage.getItem('aura_phase') || 'Luteal',
+      bristol: Number(localStorage.getItem('aura_bristol') || 4),
+      buoyancy: localStorage.getItem('aura_buoyancy') || 'float'
+    };
+
+    document.getElementById('geminiKeyInput').value = localStorage.getItem('aura_gemini_key') || '';
+
+    async function authenticatePixelBiometrics() {
+      const key = document.getElementById('geminiKeyInput').value.trim();
+      if (key) localStorage.setItem('aura_gemini_key', key);
+
+      const NativeBio = window.Capacitor?.Plugins?.NativeBiometric;
+      if (NativeBio) {
+        try {
+          const avail = await NativeBio.isAvailable({ useFallback: true });
+          if (avail && avail.isAvailable) {
+            await NativeBio.verifyIdentity({
+              reason: "Unlock your Aura Bio-Anatomy Vault",
+              title: "Aura Biometric Vault",
+              subtitle: "Pixel 8 Hardware Security",
+              useFallback: true
+            });
+          }
+        } catch (err) {
+          document.getElementById('lockSubtext').innerText = "Verification cancelled. Tap again.";
+          return;
+        }
+      }
+      document.getElementById('lockVeil').classList.add('opacity-0', 'pointer-events-none');
+      recalculateAllBioIntelligence();
+    }
+
+    function openApiKeyModal() {
+      const current = localStorage.getItem('aura_gemini_key') || '';
+      const entered = prompt("Paste your Google Gemini API Key:", current);
+      if (entered !== null) {
+        localStorage.setItem('aura_gemini_key', entered.trim());
+        document.getElementById('geminiKeyInput').value = entered.trim();
+      }
+    }
+
+    function openSheet(id) { closeSheets(); document.getElementById(id).classList.replace('sheet-closed', 'sheet-open'); }
+    function closeSheets() { ['mealSheet', 'gutSheet'].forEach(id => document.getElementById(id).classList.replace('sheet-open', 'sheet-closed')); }
+
+    function switchAnatomyTab(tab) {
+      const gutSvg = document.getElementById('svgGutCanvas');
+      const faceSvg = document.getElementById('svgFaceCanvas');
+      const btnGut = document.getElementById('tabGutMap');
+      const btnFace = document.getElementById('tabFaceMap');
+
+      if (tab === 'gut') {
+        gutSvg.classList.remove('hidden');
+        faceSvg.classList.add('hidden');
+        btnGut.className = "px-2.5 py-1 rounded-full bg-[#1C1B19] text-[#F4F1EA]";
+        btnFace.className = "px-2.5 py-1 rounded-full text-[#78736A]";
+        inspectOrganZone('stomach');
+      } else {
+        gutSvg.classList.add('hidden');
+        faceSvg.classList.remove('hidden');
+        btnFace.className = "px-2.5 py-1 rounded-full bg-[#1C1B19] text-[#F4F1EA]";
+        btnGut.className = "px-2.5 py-1 rounded-full text-[#78736A]";
+        inspectOrganZone('undereye');
+      }
+    }
+
+    function getCircadianAgniWindow() {
+      const hr = new Date().getHours();
+      if (hr >= 6 && hr < 10) return { window: "Morning Kapha (6–10 AM)", strength: "Gentle Warm-Up" };
+      if (hr >= 10 && hr < 14) return { window: "Solar Pitta Peak (10 AM–2 PM)", strength: "Maximum Enzyme Output" };
+      if (hr >= 14 && hr < 18) return { window: "Afternoon Vata (2–6 PM)", strength: "Variable Motility" };
+      return { window: "Sunset Tapering (Post-6 PM)", strength: "Slow Gastric Clearance" };
+    }
+
+    function handleFoodPhoto(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      currentPhotoMime = file.type || "image/jpeg";
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const scale = Math.min(1, 800 / img.width);
+          canvas.width = img.width * scale;
+          canvas.height = img.height * scale;
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+          document.getElementById('foodPhotoPreview').src = dataUrl;
+          document.getElementById('foodPhotoPreviewContainer').classList.remove('hidden');
+          currentPhotoBase64 = dataUrl.split(',')[1];
+          currentPhotoMime = 'image/jpeg';
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function simulateGutAnatomyFromMeal(rawInput) {
+      const text = (rawInput || "Custom Plate").trim();
+      const lower = text.toLowerCase();
+      const circadian = getCircadianAgniWindow();
+
+      const hasDairy = /milk|curd|dahi|yogurt|paneer|cheese|butter|latte|cream|lassi/.test(lower);
+      const hasSour = /lemon|tomato|orange|pineapple|tamarind|imli|sambar|chutney|pickle/.test(lower);
+      const hasIced = /iced|cold|chilled|ice cream|shake|frappe|coke|soda/.test(lower);
+      const hasCaffeine = /coffee|tea|chai|matcha|espresso/.test(lower);
+      const hasIronRich = /palak|spinach|dal|lentil|poha|beet|rajma|chole|meat|egg/.test(lower);
+      const hasRefinedOrHeavy = /pizza|burger|fries|paratha|naan|bhature|maida|pasta|maggi|pastry/.test(lower);
+
+      let cal = 320, pro = 12, carb = 42, fib = 6, fat = 11;
+      let fe = 3.5, mg = 72, zn = 2.1, na = 420;
+
+      if (hasDairy) { cal += 140; pro += 9; fat += 10; na += 160; zn += 1.1; }
+      if (hasRefinedOrHeavy) { cal += 240; carb += 35; fat += 14; na += 690; fib -= 1.5; }
+      if (hasIronRich) { cal += 110; pro += 7; fib += 4.5; fe += 3.4; mg += 55; }
+
+      let synergyScore = 95;
+      let gastricHours = 2.4 + (fat * 0.05) + (hasIced ? 1.2 : 0) + (hasRefinedOrHeavy ? 1.1 : 0);
+      gastricHours = Number(Math.min(6.2, gastricHours).toFixed(1));
+
+      let stomachState = {
+        status: "Optimal Enzymatic Churn",
+        color1: "#A3C9A8", color2: "#4E6E58",
+        detail: Warm enzymatic breakdown active. "" will clear the stomach chamber in ~ hrs without acid reflux.,
+        remedy: "Sip 50ml warm water mid-meal to aid lipid emulsification."
+      };
+
+      let smallIntestineState = {
+        status: "Unblocked Mineral Uptake",
+        chelationRisk: false,
+        detail: Duodenal villi are absorbing mg Iron andmg Zinc cleanly with zero phytate/tannin interference.,
+        remedy: "Add a squeeze of fresh lemon to boost non-heme iron transport."
+      };
+
+      let colonState = {
+        status: "Smooth Peristalsis Wave",
+        gasLevel: "low",
+        detail: ${fib.toFixed(1)}g prebiotic fiber feeds flora, keeping your  colon hydrated at Bristol Type.,
+        remedy: "10-minute gentle walk post-meal locks in smooth transit."
+      };
+
+      let faceState = {
+        undereye: na > 800 ? High Sodium (mg) is pulling extracellular water into under-eye tissues tomorrow morning. : Low sodium load (mg) keeps periorbital lymphatics drained and de-puffed.,
+        jawline: (hasDairy && (hasSour || hasRefinedOrHeavy)) ? Dairy + high-glycemic/sour pairing spikes insulin-like growth factor (IGF-1), increasing jawline sebum risk over the next 18 hours. : Balanced glycemic load keeps mandibular sebaceous glands calm.
+      };
+
+      if (hasIced && (hasDairy || hasRefinedOrHeavy)) {
+        synergyScore -= 26;
+        stomachState = {
+          status: "⚠️ Thermal Lipid Solidification",
+          color1: "#E6A18C", color2: "#9E4747",
+          detail: Chilled beverage alongside cooked fats in "" solidifies lipid droplets in the stomach, delaying gastric emptying to ~ hrs.,
+          remedy: "Chew 1/2 tsp roasted Ajwain + fresh ginger with warm water immediately to re-emulsify solidified fats."
+        };
+      } else if (hasDairy && hasSour) {
+        synergyScore -= 24;
+        stomachState = {
+          status: "⚠️ Casein Curdling Conflict",
+          color1: "#E6A18C", color2: "#B85252",
+          detail: Sour acids paired with dairy in "" precipitate milk casein rapidly in the gastric chamber, creating heavy damp residue (Ama).,
+          remedy: "Take 1/4 tsp Shunthi (dry ginger) + 2 pinches cardamom in warm water to clear curdled mucus."
+        };
+      }
+
+      if (hasCaffeine && hasIronRich) {
+        synergyScore -= 18;
+        smallIntestineState = {
+          status: "🔒 Tannin-Iron Chelation Block",
+          chelationRisk: true,
+          detail: Polyphenols/tannins from tea/coffee in "" are binding to non-heme Iron in your duodenum right now, blocking ~60% of ferritin absorption.,
+          remedy: "Space tea/coffee at least 60 minutes away from iron-rich meals, or add 250mg Vitamin C (Amla)."
+        };
+      }
+
+      if (state.bristol <= 2 || state.buoyancy === 'sink' || (hasDairy && hasSour) || hasRefinedOrHeavy) {
+        colonState = {
+          status: state.bristol <= 2 ? "🪨 Dry Vata Colonic Stagnation" : "🫧 Fermentation Pocket Active",
+          gasLevel: "high",
+          detail: Unabsorbed sugars/fats from "" combined with your  progesterone slowdown are generating CO2/methane micro-bubbles in the ascending colon.,
+          remedy: "Steep 1/2 tsp Fennel (Saunf) + 1/2 tsp Coriander seeds + 1 pinch Hing in warm water after eating."
+        };
+      }
+
+      const headline = synergyScore < 80
+        ? Anatomy Alert: "" triggered a \% digestive slowdown in your.
+        : "" ( kcal) is flowing cleanly through your digestive tract.;
+
+      const whisperBody = ${stomachState.detail};
+
+      return {
+        dishName: text,
+        calories: Math.round(cal), protein: Math.round(pro), carbs: Math.round(carb), fiber: Number(fib.toFixed(1)), fat: Math.round(fat),
+        iron: Number(fe.toFixed(1)), magnesium: Math.round(mg), zinc: Number(zn.toFixed(1)), sodium: Math.round(na),
+        synergyScore, gastricHours,
+        stomachState, smallIntestineState, colonState, faceState,
+        whisperHeadline: headline,
+        whisperExplanation: whisperBody,
+        ayurvedicRemedy: stomachState.status.includes('⚠️') ? stomachState.remedy : colonState.gasLevel === 'high' ? colonState.remedy : smallIntestineState.remedy
+      };
+    }
+
+    async function analyzeMealWithAI() {
+      const btn = document.getElementById('analyzeMealBtn');
+      const foodText = document.getElementById('fluidFoodInput').value.trim() || "Snapped Meal Plate";
+      btn.innerText = "⏳ Mapping Meal Inside Gut Anatomy...";
+      btn.disabled = true;
+
+      let analyzedMeal = simulateGutAnatomyFromMeal(foodText);
+
+      const logs = JSON.parse(localStorage.getItem('aura_v35_logs') || '[]');
+      analyzedMeal.time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      logs.unshift(analyzedMeal);
+      localStorage.setItem('aura_v35_logs', JSON.stringify(logs.slice(0, 12)));
+
+      currentPhotoBase64 = null;
+      document.getElementById('foodPhotoPreviewContainer').classList.add('hidden');
+      document.getElementById('fluidFoodInput').value = '';
+      btn.innerText = "🔬 Map Inside Gut Anatomy & Compute Macros";
+      btn.disabled = false;
+
+      closeSheets();
+      recalculateAllBioIntelligence();
+      inspectOrganZone('stomach');
+    }
+
+    function renderAnatomyVisuals(latestMeal) {
+      const stomStop1 = document.getElementById('stomStop1');
+      const stomStop2 = document.getElementById('stomStop2');
+      const bubblesGroup = document.getElementById('svgGasBubblesGroup');
+
+      if (!latestMeal) {
+        stomStop1.setAttribute('stop-color', '#A3C9A8');
+        stomStop2.setAttribute('stop-color', '#4E6E58');
+        bubblesGroup.innerHTML = '';
+        return;
+      }
+
+      stomStop1.setAttribute('stop-color', latestMeal.stomachState.color1);
+      stomStop2.setAttribute('stop-color', latestMeal.stomachState.color2);
+
+      let markersHtml = '';
+      if (latestMeal.colonState.gasLevel === 'high') {
+        markersHtml += 
+          <circle class="gas-bubble" cx="58" cy="145" r="5" fill="#9E4747" opacity="0.7" />
+          <circle class="gas-bubble" cx="62" cy="165" r="4" fill="#9E4747" opacity="0.6" style="animation-delay:0.6s" />
+          <circle class="gas-bubble" cx="140" cy="150" r="5" fill="#9E4747" opacity="0.7" style="animation-delay:1.1s" />
+        ;
+      }
+      if (latestMeal.smallIntestineState.chelationRisk) {
+        markersHtml += 
+          <circle cx="100" cy="142" r="8" fill="#9E4747" />
+          <text x="100" y="145" font-size="7" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Fe🔒</text>
+        ;
+      }
+      bubblesGroup.innerHTML = markersHtml;
+
+      const hasHighSodium = latestMeal.sodium > 700;
+      document.getElementById('faceLeftEyeZone').setAttribute('fill', hasHighSodium ? '#9E4747' : '#8FA893');
+      document.getElementById('faceRightEyeZone').setAttribute('fill', hasHighSodium ? '#9E4747' : '#8FA893');
+    }
+
+    function inspectOrganZone(zone) {
+      activeAnatomyZone = zone;
+      const logs = JSON.parse(localStorage.getItem('aura_v35_logs') || '[]');
+      const latest = logs[0];
+
+      const tag = document.getElementById('inspectorZoneTag');
+      const timer = document.getElementById('inspectorTimer');
+      const title = document.getElementById('inspectorTitle');
+      const desc = document.getElementById('inspectorDesc');
+      const pill = document.getElementById('inspectorActionPill');
+
+      if (!latest) {
+        tag.innerText = zone.toUpperCase();
+        timer.innerText = "Fasting / Ready";
+        title.innerText = "No active meal in chamber";
+        desc.innerText = "Tap '+ Snap / Log Plate' below to log a meal and watch how it behaves inside your Stomach, Duodenum, Colon, and Face Glow Map.";
+        pill.innerText = "💡 Try the preset buttons in the meal drawer!";
+        return;
+      }
+
+      if (zone === 'stomach') {
+        tag.innerText = "ZONE 1 • STOMACH CHAMBER";
+        timer.innerText = ~h clearance;
+        title.innerText = latest.stomachState.status;
+        desc.innerText = latest.stomachState.detail;
+        pill.innerText = 🌿 Fix: ;
+      } else if (zone === 'smallIntestine') {
+        tag.innerText = "ZONE 2 • DUODENUM & VILLI";
+        timer.innerText = ${latest.iron}mg Fe • mg Zn;
+        title.innerText = latest.smallIntestineState.status;
+        desc.innerText = latest.smallIntestineState.detail;
+        pill.innerText = 🌿 Fix: ;
+      } else if (zone === 'colon') {
+        tag.innerText = "ZONE 3 • LARGE INTESTINE";
+        timer.innerText = Bristol T ();
+        title.innerText = latest.colonState.status;
+        desc.innerText = latest.colonState.detail;
+        pill.innerText = 🌿 Fix: ;
+      } else if (zone === 'undereye' || zone === 'jawline' || zone === 'forehead') {
+        tag.innerText = "ZONE 4 • DERMIS & LYMPH MAP";
+        timer.innerText = Na: mg;
+        title.innerText = zone === 'undereye' ? "Under-Eye Water Retention" : "Jawline Sebum Axis";
+        desc.innerText = zone === 'undereye' ? latest.faceState.undereye : latest.faceState.jawline;
+        pill.innerText = 🌿 Fix: Drink 200ml Coriander seed water before 6 PM to flush facial lymph.;
+      }
+    }
+
+    function recalculateAllBioIntelligence() {
+      const logs = JSON.parse(localStorage.getItem('aura_v35_logs') || '[]');
+      const circadian = getCircadianAgniWindow();
+      document.getElementById('circadianAgniBadge').innerText = 🕰️ ;
+
+      let totals = { calories: 0, protein: 0, carbs: 0, fiber: 0, fat: 0, iron: 0, magnesium: 0, zinc: 0, sodium: 0 };
+      logs.forEach(item => {
+        totals.calories += Number(item.calories || 0);
+        totals.protein += Number(item.protein || 0);
+        totals.carbs += Number(item.carbs || 0);
+        totals.fiber += Number(item.fiber || 0);
+        totals.fat += Number(item.fat || 0);
+        totals.iron += Number(item.iron || 0);
+        totals.magnesium += Number(item.magnesium || 0);
+        totals.zinc += Number(item.zinc || 0);
+        totals.sodium += Number(item.sodium || 0);
+      });
+
+      document.getElementById('totalCaloriesBadge').innerText = ${Math.round(totals.calories)} kcal;
+      document.getElementById('macroProtein').innerText = ${Math.round(totals.protein)}g;
+      document.getElementById('macroCarbs').innerText = ${Math.round(totals.carbs)}g;
+      document.getElementById('macroFiber').innerText = ${totals.fiber.toFixed(1)}g;
+      document.getElementById('macroFat').innerText = ${Math.round(totals.fat)}g;
+
+      document.getElementById('microIronVal').innerText = ${totals.iron.toFixed(1)} / 18 mg;
+      document.getElementById('barIron').style.width = ${Math.min(100, (totals.iron / 18) * 100)}%;
+      document.getElementById('microMagVal').innerText = ${Math.round(totals.magnesium)} / 320 mg;
+      document.getElementById('barMag').style.width = ${Math.min(100, (totals.magnesium / 320) * 100)}%;
+      document.getElementById('microZincVal').innerText = ${totals.zinc.toFixed(1)} / 8 mg;
+      document.getElementById('barZinc').style.width = ${Math.min(100, (totals.zinc / 8) * 100)}%;
+      document.getElementById('microSodVal').innerText = ${Math.round(totals.sodium)} / 2000 mg;
+      document.getElementById('barSod').style.width = ${Math.min(100, (totals.sodium / 2000) * 100)}%;
+
+      if (logs.length === 0) {
+        document.getElementById('whisperHeadline').innerText = ${circadian.strength} active in your phase.;
+        document.getElementById('whisperBody').innerText = Your digestive tract is currently in a fasting/clearing state with Bristol Type  motility. Log a meal below to visualize how it moves through your anatomy.;
+        document.getElementById('ayurvedicRxText').innerText = Sip warm water with a slice of fresh ginger before your first meal.;
+        document.getElementById('localHistoryList').innerHTML = <p class="text-[11px] text-[#78736A]">No meals mapped today. Tap '+ Snap / Log Plate' below.</p>;
+        renderAnatomyVisuals(null);
+        inspectOrganZone(activeAnatomyZone);
+        return;
+      }
+
+      const latest = logs[0];
+      document.getElementById('synergyScoreBadge').innerText = Synergy: %;
+      document.getElementById('whisperHeadline').innerText = latest.whisperHeadline;
+      document.getElementById('whisperBody').innerText = latest.whisperExplanation;
+      document.getElementById('ayurvedicRxText').innerText = latest.ayurvedicRemedy;
+
+      renderAnatomyVisuals(latest);
+      inspectOrganZone(activeAnatomyZone);
+
+      document.getElementById('localHistoryList').innerHTML = logs.map(l => 
+        <div class="bg-white/85 p-3 rounded-2xl border border-black/5 space-y-1">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-[#1C1B19] text-xs"></span>
+            <span class="text-[10px] font-bold text-[#4E6E58]"> kcal • Synergy %</span>
+          </div>
+          <div class="text-[10px] text-[#78736A] flex gap-2">
+            <span>P: <strong>g</strong></span>
+            <span>C: <strong>g</strong></span>
+            <span>Fib: <strong>g</strong></span>
+            <span>Clearance: <strong>~h</strong></span>
+          </div>
+        </div>
+      ).join('');
+    }
+
+    function selectPebble(type) {
+      state.bristol = type;
+      localStorage.setItem('aura_bristol', type);
+      [2, 4, 5, 6].forEach(t => {
+        document.getElementById(peb-).className = t === type
+          ? "p-2.5 rounded-2xl bg-[#1C1B19] text-[#F4F1EA] flex flex-col items-center"
+          : "p-2.5 rounded-2xl bg-white border border-black/5 flex flex-col items-center";
+      });
+    }
+
+    function selectBuoyancy(mode) {
+      state.buoyancy = mode;
+      localStorage.setItem('aura_buoyancy', mode);
+      document.getElementById('buoy-float').className = mode === 'float' ? "py-2.5 rounded-2xl bg-[#1C1B19] text-[#F4F1EA] text-xs font-semibold" : "py-2.5 rounded-2xl bg-white text-[#5A564F] border border-black/10 text-xs font-semibold";
+      document.getElementById('buoy-sink').className = mode === 'sink' ? "py-2.5 rounded-2xl bg-[#1C1B19] text-[#F4F1EA] text-xs font-semibold" : "py-2.5 rounded-2xl bg-white text-[#5A564F] border border-black/10 text-xs font-semibold";
+    }
+
+    function updateGutState() {
+      closeSheets();
+      const logs = JSON.parse(localStorage.getItem('aura_v35_logs') || '[]');
+      if (logs.length > 0) {
+        const updated = simulateGutAnatomyFromMeal(logs[0].dishName);
+        updated.time = logs[0].time;
+        logs[0] = updated;
+        localStorage.setItem('aura_v35_logs', JSON.stringify(logs));
+      }
+      recalculateAllBioIntelligence();
+    }
+
+    function switchPhase(phase) {
+      state.phase = phase;
+      localStorage.setItem('aura_phase', phase);
+      ['Luteal', 'Period', 'Follicular'].forEach(p => {
+        const el = document.getElementById(phase-);
+        if (el) el.className = p === phase ? "px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#1C1B19] text-[#F4F1EA]" : "px-2.5 py-1 rounded-full text-[11px] font-medium text-[#78736A]";
+      });
+      updateGutState();
+    }
+
+    function clearLocalVault() {
+      localStorage.removeItem('aura_v35_logs');
+      recalculateAllBioIntelligence();
+    }
+  </script>
+</body>
+</html>
