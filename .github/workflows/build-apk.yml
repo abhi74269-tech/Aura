@@ -32,10 +32,10 @@ jobs:
           npx cap add android || true
           npx cap sync android
 
-      - name: Inject Hardware Sensor Permissions (Mic, Camera, Biometrics)
+      - name: Inject Hardware Permissions (GPS Location, Mic, Camera, Biometrics)
         run: |
           MANIFEST="android/app/src/main/AndroidManifest.xml"
-          sed -i 's/<application/<uses-permission android:name="android.permission.USE_BIOMETRIC" \/>\n    <uses-permission android:name="android.permission.USE_FINGERPRINT" \/>\n    <uses-permission android:name="android.permission.CAMERA" \/>\n    <uses-permission android:name="android.permission.RECORD_AUDIO" \/>\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" \/>\n    <application/' "$MANIFEST"
+          sed -i 's/<application/<uses-permission android:name="android.permission.USE_BIOMETRIC" \/>\n    <uses-permission android:name="android.permission.USE_FINGERPRINT" \/>\n    <uses-permission android:name="android.permission.CAMERA" \/>\n    <uses-permission android:name="android.permission.RECORD_AUDIO" \/>\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" \/>\n    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" \/>\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" \/>\n    <application/' "$MANIFEST"
 
       - name: Compile Native Debug APK via Gradle
         working-directory: ./android
@@ -46,5 +46,5 @@ jobs:
       - name: Upload Ready-to-Install Aura.apk
         uses: actions/upload-artifact@v4
         with:
-          name: Aura-Unicorn-v5-Native-APK
+          name: Aura-Unicorn-v6-Native-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
