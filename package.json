@@ -1,0 +1,14 @@
+﻿{
+  "name": "aura-biosync",
+  "version": "3.5.0",
+  "description": "Aura Bio-Anatomy & Clinical Vault",
+  "main": "www/index.html",
+  "dependencies": {
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/core": "^6.1.0",
+    "@capgo/capacitor-native-biometric": "^6.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.0"
+  }
+}

@@ -425,27 +425,27 @@
       let stomachState = {
         status: "Optimal Enzymatic Churn",
         color1: "#A3C9A8", color2: "#4E6E58",
-        detail: Warm enzymatic breakdown active. "" will clear the stomach chamber in ~ hrs without acid reflux.,
+        detail: `Warm enzymatic breakdown active. "${text}" will clear the stomach chamber in ~${gastricHours} hrs without acid reflux.`,
         remedy: "Sip 50ml warm water mid-meal to aid lipid emulsification."
       };
 
       let smallIntestineState = {
         status: "Unblocked Mineral Uptake",
         chelationRisk: false,
-        detail: Duodenal villi are absorbing mg Iron andmg Zinc cleanly with zero phytate/tannin interference.,
+        detail: `Duodenal villi are absorbing ${fe.toFixed(1)}mg Iron and${zn.toFixed(1)}mg Zinc cleanly with zero phytate/tannin interference.`,
         remedy: "Add a squeeze of fresh lemon to boost non-heme iron transport."
       };
 
       let colonState = {
         status: "Smooth Peristalsis Wave",
         gasLevel: "low",
-        detail: ${fib.toFixed(1)}g prebiotic fiber feeds flora, keeping your  colon hydrated at Bristol Type.,
+        detail: `${fib.toFixed(1)}g prebiotic fiber feeds flora, keeping your ${state.phase} colon hydrated at Bristol Type${state.bristol}.`,
         remedy: "10-minute gentle walk post-meal locks in smooth transit."
       };
 
       let faceState = {
-        undereye: na > 800 ? High Sodium (mg) is pulling extracellular water into under-eye tissues tomorrow morning. : Low sodium load (mg) keeps periorbital lymphatics drained and de-puffed.,
-        jawline: (hasDairy && (hasSour || hasRefinedOrHeavy)) ? Dairy + high-glycemic/sour pairing spikes insulin-like growth factor (IGF-1), increasing jawline sebum risk over the next 18 hours. : Balanced glycemic load keeps mandibular sebaceous glands calm.
+        undereye: na > 800 ? `High Sodium (${na}mg) is pulling extracellular water into under-eye tissues tomorrow morning.` : `Low sodium load (${na}mg) keeps periorbital lymphatics drained and de-puffed.`,
+        jawline: (hasDairy && (hasSour || hasRefinedOrHeavy)) ? `Dairy + high-glycemic/sour pairing spikes insulin-like growth factor (IGF-1), increasing jawline sebum risk over the next 18 hours.` : `Balanced glycemic load keeps mandibular sebaceous glands calm.`
       };
 
       if (hasIced && (hasDairy || hasRefinedOrHeavy)) {
@@ -453,7 +453,7 @@
         stomachState = {
           status: "⚠️ Thermal Lipid Solidification",
           color1: "#E6A18C", color2: "#9E4747",
-          detail: Chilled beverage alongside cooked fats in "" solidifies lipid droplets in the stomach, delaying gastric emptying to ~ hrs.,
+          detail: `Chilled beverage alongside cooked fats in "${text}" solidifies lipid droplets in the stomach, delaying gastric emptying to ~${gastricHours} hrs.`,
           remedy: "Chew 1/2 tsp roasted Ajwain + fresh ginger with warm water immediately to re-emulsify solidified fats."
         };
       } else if (hasDairy && hasSour) {
@@ -461,7 +461,7 @@
         stomachState = {
           status: "⚠️ Casein Curdling Conflict",
           color1: "#E6A18C", color2: "#B85252",
-          detail: Sour acids paired with dairy in "" precipitate milk casein rapidly in the gastric chamber, creating heavy damp residue (Ama).,
+          detail: `Sour acids paired with dairy in "${text}" precipitate milk casein rapidly in the gastric chamber, creating heavy damp residue (Ama).`,
           remedy: "Take 1/4 tsp Shunthi (dry ginger) + 2 pinches cardamom in warm water to clear curdled mucus."
         };
       }
@@ -471,7 +471,7 @@
         smallIntestineState = {
           status: "🔒 Tannin-Iron Chelation Block",
           chelationRisk: true,
-          detail: Polyphenols/tannins from tea/coffee in "" are binding to non-heme Iron in your duodenum right now, blocking ~60% of ferritin absorption.,
+          detail: `Polyphenols/tannins from tea/coffee in "${text}" are binding to non-heme Iron in your duodenum right now, blocking ~60% of ferritin absorption.`,
           remedy: "Space tea/coffee at least 60 minutes away from iron-rich meals, or add 250mg Vitamin C (Amla)."
         };
       }
@@ -480,16 +480,16 @@
         colonState = {
           status: state.bristol <= 2 ? "🪨 Dry Vata Colonic Stagnation" : "🫧 Fermentation Pocket Active",
           gasLevel: "high",
-          detail: Unabsorbed sugars/fats from "" combined with your  progesterone slowdown are generating CO2/methane micro-bubbles in the ascending colon.,
+          detail: `Unabsorbed sugars/fats from "${text}" combined with your ${state.phase} progesterone slowdown are generating CO2/methane micro-bubbles in the ascending colon.`,
           remedy: "Steep 1/2 tsp Fennel (Saunf) + 1/2 tsp Coriander seeds + 1 pinch Hing in warm water after eating."
         };
       }
 
       const headline = synergyScore < 80
-        ? Anatomy Alert: "" triggered a \% digestive slowdown in your.
-        : "" ( kcal) is flowing cleanly through your digestive tract.;
+        ? `Anatomy Alert: "${text}" triggered a ${100 - synergyScore}\% digestive slowdown in your${stomachState.status.includes('⚠️') ? 'Stomach' : 'Duodenum'}.`
+        : `"${text}" (${cal} kcal) is flowing cleanly through your${circadian.window} digestive tract.`;
 
-      const whisperBody = ${stomachState.detail};
+      const whisperBody = `${stomachState.detail}${smallIntestineState.detail}`;
 
       return {
         dishName: text,
@@ -544,17 +544,17 @@
 
       let markersHtml = '';
       if (latestMeal.colonState.gasLevel === 'high') {
-        markersHtml += 
+        markersHtml += `
           <circle class="gas-bubble" cx="58" cy="145" r="5" fill="#9E4747" opacity="0.7" />
           <circle class="gas-bubble" cx="62" cy="165" r="4" fill="#9E4747" opacity="0.6" style="animation-delay:0.6s" />
           <circle class="gas-bubble" cx="140" cy="150" r="5" fill="#9E4747" opacity="0.7" style="animation-delay:1.1s" />
-        ;
+        `;
       }
       if (latestMeal.smallIntestineState.chelationRisk) {
-        markersHtml += 
+        markersHtml += `
           <circle cx="100" cy="142" r="8" fill="#9E4747" />
           <text x="100" y="145" font-size="7" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Fe🔒</text>
-        ;
+        `;
       }
       bubblesGroup.innerHTML = markersHtml;
 
@@ -585,35 +585,35 @@
 
       if (zone === 'stomach') {
         tag.innerText = "ZONE 1 • STOMACH CHAMBER";
-        timer.innerText = ~h clearance;
+        timer.innerText = `~${latest.gastricHours}h clearance`;
         title.innerText = latest.stomachState.status;
         desc.innerText = latest.stomachState.detail;
-        pill.innerText = 🌿 Fix: ;
+        pill.innerText = `🌿 Fix: ${latest.stomachState.remedy}`;
       } else if (zone === 'smallIntestine') {
         tag.innerText = "ZONE 2 • DUODENUM & VILLI";
-        timer.innerText = ${latest.iron}mg Fe • mg Zn;
+        timer.innerText = `${latest.iron}mg Fe • ${latest.zinc}mg Zn`;
         title.innerText = latest.smallIntestineState.status;
         desc.innerText = latest.smallIntestineState.detail;
-        pill.innerText = 🌿 Fix: ;
+        pill.innerText = `🌿 Fix: ${latest.smallIntestineState.remedy}`;
       } else if (zone === 'colon') {
         tag.innerText = "ZONE 3 • LARGE INTESTINE";
-        timer.innerText = Bristol T ();
+        timer.innerText = `Bristol T${state.bristol} (${state.buoyancy})`;
         title.innerText = latest.colonState.status;
         desc.innerText = latest.colonState.detail;
-        pill.innerText = 🌿 Fix: ;
+        pill.innerText = `🌿 Fix: ${latest.colonState.remedy}`;
       } else if (zone === 'undereye' || zone === 'jawline' || zone === 'forehead') {
         tag.innerText = "ZONE 4 • DERMIS & LYMPH MAP";
-        timer.innerText = Na: mg;
+        timer.innerText = `Na: ${latest.sodium}mg`;
         title.innerText = zone === 'undereye' ? "Under-Eye Water Retention" : "Jawline Sebum Axis";
         desc.innerText = zone === 'undereye' ? latest.faceState.undereye : latest.faceState.jawline;
-        pill.innerText = 🌿 Fix: Drink 200ml Coriander seed water before 6 PM to flush facial lymph.;
+        pill.innerText = `🌿 Fix: Drink 200ml Coriander seed water before 6 PM to flush facial lymph.`;
       }
     }
 
     function recalculateAllBioIntelligence() {
       const logs = JSON.parse(localStorage.getItem('aura_v35_logs') || '[]');
       const circadian = getCircadianAgniWindow();
-      document.getElementById('circadianAgniBadge').innerText = 🕰️ ;
+      document.getElementById('circadianAgniBadge').innerText = `🕰️ ${circadian.window}`;
 
       let totals = { calories: 0, protein: 0, carbs: 0, fiber: 0, fat: 0, iron: 0, magnesium: 0, zinc: 0, sodium: 0 };
       logs.forEach(item => {
@@ -628,33 +628,33 @@
         totals.sodium += Number(item.sodium || 0);
       });
 
-      document.getElementById('totalCaloriesBadge').innerText = ${Math.round(totals.calories)} kcal;
-      document.getElementById('macroProtein').innerText = ${Math.round(totals.protein)}g;
-      document.getElementById('macroCarbs').innerText = ${Math.round(totals.carbs)}g;
-      document.getElementById('macroFiber').innerText = ${totals.fiber.toFixed(1)}g;
-      document.getElementById('macroFat').innerText = ${Math.round(totals.fat)}g;
+      document.getElementById('totalCaloriesBadge').innerText = `${Math.round(totals.calories)} kcal`;
+      document.getElementById('macroProtein').innerText = `${Math.round(totals.protein)}g`;
+      document.getElementById('macroCarbs').innerText = `${Math.round(totals.carbs)}g`;
+      document.getElementById('macroFiber').innerText = `${totals.fiber.toFixed(1)}g`;
+      document.getElementById('macroFat').innerText = `${Math.round(totals.fat)}g`;
 
-      document.getElementById('microIronVal').innerText = ${totals.iron.toFixed(1)} / 18 mg;
-      document.getElementById('barIron').style.width = ${Math.min(100, (totals.iron / 18) * 100)}%;
-      document.getElementById('microMagVal').innerText = ${Math.round(totals.magnesium)} / 320 mg;
-      document.getElementById('barMag').style.width = ${Math.min(100, (totals.magnesium / 320) * 100)}%;
-      document.getElementById('microZincVal').innerText = ${totals.zinc.toFixed(1)} / 8 mg;
-      document.getElementById('barZinc').style.width = ${Math.min(100, (totals.zinc / 8) * 100)}%;
-      document.getElementById('microSodVal').innerText = ${Math.round(totals.sodium)} / 2000 mg;
-      document.getElementById('barSod').style.width = ${Math.min(100, (totals.sodium / 2000) * 100)}%;
+      document.getElementById('microIronVal').innerText = `${totals.iron.toFixed(1)} / 18 mg`;
+      document.getElementById('barIron').style.width = `${Math.min(100, (totals.iron / 18) * 100)}%`;
+      document.getElementById('microMagVal').innerText = `${Math.round(totals.magnesium)} / 320 mg`;
+      document.getElementById('barMag').style.width = `${Math.min(100, (totals.magnesium / 320) * 100)}%`;
+      document.getElementById('microZincVal').innerText = `${totals.zinc.toFixed(1)} / 8 mg`;
+      document.getElementById('barZinc').style.width = `${Math.min(100, (totals.zinc / 8) * 100)}%`;
+      document.getElementById('microSodVal').innerText = `${Math.round(totals.sodium)} / 2000 mg`;
+      document.getElementById('barSod').style.width = `${Math.min(100, (totals.sodium / 2000) * 100)}%`;
 
       if (logs.length === 0) {
-        document.getElementById('whisperHeadline').innerText = ${circadian.strength} active in your phase.;
-        document.getElementById('whisperBody').innerText = Your digestive tract is currently in a fasting/clearing state with Bristol Type  motility. Log a meal below to visualize how it moves through your anatomy.;
-        document.getElementById('ayurvedicRxText').innerText = Sip warm water with a slice of fresh ginger before your first meal.;
-        document.getElementById('localHistoryList').innerHTML = <p class="text-[11px] text-[#78736A]">No meals mapped today. Tap '+ Snap / Log Plate' below.</p>;
+        document.getElementById('whisperHeadline').innerText = `${circadian.strength} active in your${state.phase} phase.`;
+        document.getElementById('whisperBody').innerText = `Your digestive tract is currently in a fasting/clearing state with Bristol Type ${state.bristol} motility. Log a meal below to visualize how it moves through your anatomy.`;
+        document.getElementById('ayurvedicRxText').innerText = `Sip warm water with a slice of fresh ginger before your first meal.`;
+        document.getElementById('localHistoryList').innerHTML = `<p class="text-[11px] text-[#78736A]">No meals mapped today. Tap '+ Snap / Log Plate' below.</p>`;
         renderAnatomyVisuals(null);
         inspectOrganZone(activeAnatomyZone);
         return;
       }
 
       const latest = logs[0];
-      document.getElementById('synergyScoreBadge').innerText = Synergy: %;
+      document.getElementById('synergyScoreBadge').innerText = `Synergy: ${latest.synergyScore}%`;
       document.getElementById('whisperHeadline').innerText = latest.whisperHeadline;
       document.getElementById('whisperBody').innerText = latest.whisperExplanation;
       document.getElementById('ayurvedicRxText').innerText = latest.ayurvedicRemedy;
@@ -662,27 +662,27 @@
       renderAnatomyVisuals(latest);
       inspectOrganZone(activeAnatomyZone);
 
-      document.getElementById('localHistoryList').innerHTML = logs.map(l => 
+      document.getElementById('localHistoryList').innerHTML = logs.map(l => `
         <div class="bg-white/85 p-3 rounded-2xl border border-black/5 space-y-1">
           <div class="flex justify-between items-center">
-            <span class="font-bold text-[#1C1B19] text-xs"></span>
-            <span class="text-[10px] font-bold text-[#4E6E58]"> kcal • Synergy %</span>
+            <span class="font-bold text-[#1C1B19] text-xs">${l.dishName}</span>
+            <span class="text-[10px] font-bold text-[#4E6E58]">${l.calories} kcal • Synergy ${l.synergyScore}%</span>
           </div>
           <div class="text-[10px] text-[#78736A] flex gap-2">
-            <span>P: <strong>g</strong></span>
-            <span>C: <strong>g</strong></span>
-            <span>Fib: <strong>g</strong></span>
-            <span>Clearance: <strong>~h</strong></span>
+            <span>P: <strong>${l.protein}g</strong></span>
+            <span>C: <strong>${l.carbs}g</strong></span>
+            <span>Fib: <strong>${l.fiber}g</strong></span>
+            <span>Clearance: <strong>~${l.gastricHours}h</strong></span>
           </div>
         </div>
-      ).join('');
+      `).join('');
     }
 
     function selectPebble(type) {
       state.bristol = type;
       localStorage.setItem('aura_bristol', type);
       [2, 4, 5, 6].forEach(t => {
-        document.getElementById(peb-).className = t === type
+        document.getElementById(`peb-${t}`).className = t === type
           ? "p-2.5 rounded-2xl bg-[#1C1B19] text-[#F4F1EA] flex flex-col items-center"
           : "p-2.5 rounded-2xl bg-white border border-black/5 flex flex-col items-center";
       });
@@ -711,7 +711,7 @@
       state.phase = phase;
       localStorage.setItem('aura_phase', phase);
       ['Luteal', 'Period', 'Follicular'].forEach(p => {
-        const el = document.getElementById(phase-);
+        const el = document.getElementById(`phase-${p}`);
         if (el) el.className = p === phase ? "px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#1C1B19] text-[#F4F1EA]" : "px-2.5 py-1 rounded-full text-[11px] font-medium text-[#78736A]";
       });
       updateGutState();
