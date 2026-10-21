@@ -1,60 +1,108 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#F4F1EA" />
+  <meta name="theme-color" content="#090A0F" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Aura X" />
-  <title>AURA X — Autonomous Clinical Bio-Twin & Geo-Menu Concierge</title>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="AURA X" />
+  <title>AURA X — Obsidian Clinical Bio-Twin & Geo-Menu OS</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --bg-silk: #F4F1EA; --ink: #1C1B19; }
+    :root {
+      --bg-obsidian: #090A0F;
+      --bg-carbon: #121521;
+      --neon-emerald: #10B981;
+      --neon-cyan: #06B6D4;
+      --neon-crimson: #F43F5E;
+      --neon-amber: #F59E0B;
+    }
     * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #E5E0D5; color: var(--ink); margin: 0; padding: 0; overflow: hidden; }
-    .serif-display { font-family: 'Instrument Serif', serif; }
-    .silk-pill { background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(16px); border: 1px solid rgba(28, 27, 25, 0.08); box-shadow: 0 8px 24px -8px rgba(28, 27, 25, 0.06); }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #050608;
+      color: #F8FAFC;
+      margin: 0; padding: 0;
+      overflow: hidden;
+    }
+    .font-display { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
+    .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
+
+    /* Sleek Whoop / Ultrahuman Obsidian Glass Bento Cards */
+    .bento-card {
+      background: linear-gradient(145deg, rgba(22, 27, 42, 0.88) 0%, rgba(14, 17, 27, 0.94) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.07);
+    }
+    .bento-sub {
+      background: rgba(9, 10, 15, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .hud-grid-bg {
+      background-color: #090A0F;
+      background-image:
+        linear-gradient(to right, rgba(6, 182, 212, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(6, 182, 212, 0.06) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+    .glow-emerald { box-shadow: 0 0 20px rgba(16, 185, 129, 0.25); }
+    .glow-cyan { box-shadow: 0 0 20px rgba(6, 182, 212, 0.25); }
+
     .fluid-sheet { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease; }
     .sheet-closed { transform: translateY(105%); opacity: 0; pointer-events: none; }
     .sheet-open { transform: translateY(0%); opacity: 1; pointer-events: auto; }
+
     .organ-zone { cursor: pointer; transition: all 0.25s ease; }
-    .organ-zone:hover { filter: brightness(0.92); }
-    .selected-zone { stroke: #1C1B19 !important; stroke-width: 2.5px !important; }
-    @keyframes floatBubble { 0%, 100% { transform: translateY(0px); opacity: 0.45; } 50% { transform: translateY(-6px); opacity: 0.95; } }
-    .gas-bubble { animation: floatBubble 2.2s ease-in-out infinite; }
+    .organ-zone:hover { filter: brightness(1.25) drop-shadow(0 0 8px rgba(6, 182, 212, 0.5)); }
+    .selected-zone {
+      stroke: #06B6D4 !important;
+      stroke-width: 2.5px !important;
+      filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.65));
+    }
+    @keyframes floatBubble {
+      0%, 100% { transform: translateY(0px); opacity: 0.45; }
+      50% { transform: translateY(-6px); opacity: 1; }
+    }
+    .gas-bubble { animation: floatBubble 2s ease-in-out infinite; }
     ::-webkit-scrollbar { display: none; }
   </style>
 </head>
 <body class="h-[100dvh] w-screen flex justify-center">
 
-  <div class="w-full max-w-md h-full bg-[#F4F1EA] flex flex-col justify-between relative overflow-hidden shadow-2xl">
+  <div class="w-full max-w-md h-full bg-[#090A0F] text-slate-100 flex flex-col justify-between relative overflow-hidden shadow-2xl border-x border-white/5">
 
     <!-- =================================================================== -->
-    <!-- PIXEL 8 BIOMETRIC & GOOGLE CLOUD VAULT GATEWAY                      -->
+    <!-- PIXEL 8 BIOMETRIC & GOOGLE CLOUD VAULT GATEWAY (OBSIDIAN HUD)       -->
     <!-- =================================================================== -->
-    <div id="lockVeil" class="absolute inset-0 z-50 bg-[#F4F1EA] flex flex-col items-center justify-between p-6 text-center transition-opacity duration-300">
+    <div id="lockVeil" class="absolute inset-0 z-50 bg-[#090A0F] hud-grid-bg flex flex-col items-center justify-between p-6 text-center transition-opacity duration-300">
       <div class="pt-3 w-full space-y-2">
-        <span class="text-[10px] uppercase tracking-[0.22em] text-[#4E6E58] font-bold block">AURA X • Zero-Hardware Clinical Bio-Lab</span>
-        <input id="geminiKeyInput" type="password" placeholder="Paste Gemini API Key (aistudio.google.com)" class="w-full text-xs px-4 py-3 rounded-2xl bg-white border border-black/15 text-center text-[#1C1B19] focus:outline-none shadow-sm" />
-        <p class="text-[10px] text-[#78736A]">Enables Live Gemini 2.5 Flash Food Vision & GPS Menu Grounding</p>
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="font-mono-tech text-[10px] uppercase tracking-widest text-emerald-400 font-bold">AURA X • BIO-OS v11.0</span>
+        </div>
+        <input id="geminiKeyInput" type="password" placeholder="Paste Gemini API Key (aistudio.google.com)" class="w-full text-xs px-4 py-3 rounded-2xl bg-[#121521] border border-white/10 text-center text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 shadow-inner font-mono-tech" />
+        <p class="text-[10px] text-slate-400">Powers Live Gemini 2.5 Flash Food Vision & Overpass GPS Menu AI</p>
       </div>
 
       <div class="flex flex-col items-center">
-        <div onclick="authenticatePixelBiometrics()" class="w-32 h-32 rounded-full bg-gradient-to-tr from-[#8FA893] via-[#E6C8C5] to-white shadow-xl flex flex-col items-center justify-center cursor-pointer mb-4 active:scale-95 transition-transform">
-          <span class="serif-display italic text-3xl text-[#1C1B19]">Aura X</span>
-          <span class="text-[10px] font-bold uppercase tracking-widest text-[#1C1B19]/70 mt-1">v10.0 Master</span>
+        <div onclick="authenticatePixelBiometrics()" class="w-36 h-36 rounded-full bg-gradient-to-tr from-emerald-500/20 via-cyan-500/20 to-indigo-500/20 border border-cyan-400/40 glow-cyan flex flex-col items-center justify-center cursor-pointer mb-5 active:scale-95 transition-transform relative">
+          <div class="w-28 h-28 rounded-full border border-emerald-400/30 flex flex-col items-center justify-center bg-[#090A0F]/80">
+            <span class="font-display text-2xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">AURA X</span>
+            <span class="font-mono-tech text-[9px] uppercase tracking-widest text-slate-400 mt-1">TAP TO SENSE</span>
+          </div>
         </div>
-        <h1 class="serif-display text-4xl text-[#1C1B19] tracking-tight mb-1">Clinical Bio-Twin</h1>
-        <p id="lockSubtext" class="text-xs text-[#78736A] max-w-[275px] leading-relaxed">Strict IFCT/USDA Macro Parser, Live Overpass GPS Menu Scanner, Acoustic FFT Gut-Sonic & Dermis Map.</p>
+        <h1 class="font-display text-3xl font-bold text-white tracking-tight mb-1">Autonomous Bio-Twin</h1>
+        <p id="lockSubtext" class="text-xs text-slate-400 max-w-[275px] leading-relaxed">Zero-Hardware Acoustic FFT Gut-Sonic, Optical RGB Dermis Lab, Verified GPS Menu AI & IFCT Macro Engine.</p>
       </div>
 
-      <div class="w-full space-y-2">
-        <button onclick="authenticatePixelBiometrics()" class="w-full py-3.5 rounded-full bg-[#1C1B19] text-[#F4F1EA] text-xs font-semibold shadow-lg active:scale-95 transition-transform">
-          🔒 Unlock Biometric Vault
+      <div class="w-full space-y-2.5">
+        <button onclick="authenticatePixelBiometrics()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 text-xs font-extrabold tracking-wide uppercase shadow-lg glow-emerald active:scale-95 transition-transform">
+          🔒 Authenticate Biometric Vault
         </button>
-        <button onclick="authenticateGoogleCloudSync()" class="w-full py-3 rounded-full bg-white border border-black/15 text-[#1C1B19] text-xs font-semibold shadow-sm flex items-center justify-center gap-2 active:scale-95 transition-transform">
+        <button onclick="authenticateGoogleCloudSync()" class="w-full py-3 rounded-2xl bento-card text-slate-200 text-xs font-semibold flex items-center justify-center gap-2 active:scale-95 transition-transform hover:border-white/20">
           <span>🌐</span> Sign in with Google (Cloud Profile Sync)
         </button>
       </div>
@@ -63,35 +111,35 @@
     <!-- =================================================================== -->
     <!-- PERSISTENT TOP HEADER: UNIVERSAL BIO-OS MODES + WATER + AI KEY      -->
     <!-- =================================================================== -->
-    <header class="relative z-20 px-3 pt-3 pb-1.5 space-y-1.5 border-b border-black/5 bg-[#F4F1EA]">
+    <header class="relative z-20 px-3 pt-3 pb-2 space-y-1.5 border-b border-white/10 bg-[#090A0F]/95 backdrop-blur-md">
       <div class="flex items-center justify-between gap-1">
-        <div class="flex items-center gap-0.5 silk-pill rounded-full p-1 overflow-x-auto">
-          <button onclick="switchBioMode('Peak')" id="mode-Peak" class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#1C1B19] text-[#F4F1EA] shrink-0 transition-all">⚡ Peak Agni</button>
-          <button onclick="switchBioMode('Anabolic')" id="mode-Anabolic" class="px-2.5 py-1 rounded-full text-[10px] font-medium text-[#78736A] shrink-0 transition-all">🏋️ Muscle</button>
-          <button onclick="switchBioMode('Focus')" id="mode-Focus" class="px-2.5 py-1 rounded-full text-[10px] font-medium text-[#78736A] shrink-0 transition-all">🧠 Focus</button>
-          <button onclick="switchBioMode('Cycle')" id="mode-Cycle" class="px-2.5 py-1 rounded-full text-[10px] font-medium text-[#78736A] shrink-0 transition-all">🔄 Cycle</button>
+        <div class="flex items-center gap-1 bg-[#121521] border border-white/10 rounded-xl p-1 overflow-x-auto">
+          <button onclick="switchBioMode('Peak')" id="mode-Peak" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-500 text-slate-950 shrink-0 transition-all">⚡ Peak</button>
+          <button onclick="switchBioMode('Anabolic')" id="mode-Anabolic" class="px-2.5 py-1 rounded-lg text-[10px] font-medium text-slate-400 shrink-0 transition-all">🏋️ Muscle</button>
+          <button onclick="switchBioMode('Focus')" id="mode-Focus" class="px-2.5 py-1 rounded-lg text-[10px] font-medium text-slate-400 shrink-0 transition-all">🧠 Focus</button>
+          <button onclick="switchBioMode('Cycle')" id="mode-Cycle" class="px-2.5 py-1 rounded-lg text-[10px] font-medium text-slate-400 shrink-0 transition-all">🔄 Cycle</button>
         </div>
         <div class="flex items-center gap-1 shrink-0">
-          <button onclick="logWaterFlush()" class="silk-pill px-2 py-1 rounded-full text-[10px] font-bold text-[#3B6E8C] active:scale-95" title="Add 250ml water to flush sodium edema">💧<span id="waterCountVal">1.50</span>L</button>
-          <button onclick="openApiKeyModal()" class="silk-pill px-2 py-1 rounded-full text-[10px] font-bold" title="Configure Gemini API Key">🔑</button>
-          <button onclick="openSheet('mealSheet')" class="px-3 py-1 rounded-full bg-[#1C1B19] text-[#F4F1EA] text-[10px] font-bold shadow active:scale-95">+ Log</button>
+          <button onclick="logWaterFlush()" class="bento-sub px-2 py-1 rounded-lg font-mono-tech text-[10px] font-bold text-cyan-400 border border-cyan-500/30 active:scale-95" title="Flush extracellular sodium">💧<span id="waterCountVal">1.50</span>L</button>
+          <button onclick="openApiKeyModal()" class="bento-sub px-2 py-1 rounded-lg text-[10px] font-bold text-amber-400" title="Gemini API Key">🔑</button>
+          <button onclick="openSheet('mealSheet')" class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 text-[10px] font-extrabold shadow active:scale-95">+ LOG</button>
         </div>
       </div>
 
       <!-- Active Bio-OS Telemetry Bar -->
-      <div class="bg-[#1C1B19] text-[#F4F1EA] px-3 py-1.5 rounded-xl text-[10px] flex justify-between items-center">
-        <span id="bioModeLeftText" class="font-medium truncate pr-2">⚡ Peak Metabolic: Solar Enzyme Window</span>
-        <span id="bioModeRightText" class="font-bold text-[#A3C9A8] shrink-0">MMC Clear: ~2.2h</span>
+      <div class="bg-[#121521] border border-white/5 px-3 py-1.5 rounded-xl text-[10px] flex justify-between items-center">
+        <span id="bioModeLeftText" class="text-slate-300 font-medium truncate pr-2">⚡ Peak Metabolic: Solar Enzyme Optimization</span>
+        <span id="bioModeRightText" class="font-mono-tech font-bold text-emerald-400 shrink-0">MMC: ~2.2h</span>
       </div>
 
       <!-- Persistent Mode Indicator (Full Day Cumulative vs. Single Meal Inspector) -->
-      <div id="inspectionBanner" class="silk-pill rounded-xl px-3 py-1.5 flex justify-between items-center border-l-4 border-[#4E6E58]">
+      <div id="inspectionBanner" class="bento-card rounded-xl px-3 py-1.5 flex justify-between items-center border-l-4 border-l-emerald-400">
         <div class="truncate pr-2">
-          <span id="inspectionModeLabel" class="text-[8px] uppercase tracking-widest font-bold text-[#4E6E58] block">📊 Full-Day Cumulative View</span>
-          <strong id="inspectionMealName" class="text-[11px] text-[#1C1B19] truncate block">Aggregating All Meals & Sensor Scans</strong>
+          <span id="inspectionModeLabel" class="font-mono-tech text-[8px] uppercase tracking-widest font-bold text-emerald-400 block">📊 FULL-DAY CUMULATIVE TELEMETRY</span>
+          <strong id="inspectionMealName" class="text-[11px] text-white truncate block">Aggregating All Meals & Sensor Scans</strong>
         </div>
-        <button id="exitInspectionBtn" onclick="selectMealFromHistory(null)" class="hidden px-2.5 py-1 rounded-full bg-[#1C1B19] text-[#F4F1EA] text-[9px] font-bold shrink-0 shadow">
-          ← Full Day Totals
+        <button id="exitInspectionBtn" onclick="selectMealFromHistory(null)" class="hidden px-2.5 py-1 rounded-lg bg-rose-500 text-white font-mono-tech text-[9px] font-bold shrink-0 shadow">
+          ← FULL DAY
         </button>
       </div>
     </header>
@@ -105,138 +153,141 @@
       <!-- TAB 1: INTERACTIVE BIO-TWIN (GUT / FACE DERMIS / GLUCOSE CURVE)   -->
       <!-- ================================================================= -->
       <div id="tabView-biotwin" class="space-y-2.5">
-        <div class="silk-pill rounded-[24px] p-3.5 space-y-2.5">
+        <div class="bento-card rounded-2xl p-3.5 space-y-2.5">
           <div class="flex justify-between items-center">
             <div>
-              <span class="text-[9px] uppercase tracking-widest text-[#4E6E58] font-bold block" id="scannerSubtitle">Real-Time Organ & Dermis Telemetry</span>
-              <h2 class="serif-display text-2xl text-[#1C1B19] leading-none">Interactive Bio-Twin</h2>
+              <span class="font-mono-tech text-[9px] uppercase tracking-widest text-cyan-400 font-bold block" id="scannerSubtitle">LIVE BIOMARKER MESH</span>
+              <h2 class="font-display text-lg font-bold text-white leading-none mt-0.5">Interactive Bio-Twin HUD</h2>
             </div>
-            <div class="flex bg-black/5 p-0.5 rounded-full text-[10px] font-semibold">
-              <button id="subTabGut" onclick="switchScannerLens('gut')" class="px-2.5 py-1 rounded-full bg-[#1C1B19] text-[#F4F1EA]">1. Gut</button>
-              <button id="subTabFace" onclick="switchScannerLens('face')" class="px-2.5 py-1 rounded-full text-[#78736A]">2. Face</button>
-              <button id="subTabCurve" onclick="switchScannerLens('curve')" class="px-2.5 py-1 rounded-full text-[#78736A]">3. Glucose</button>
+            <div class="flex bg-[#090A0F] border border-white/10 p-0.5 rounded-xl text-[10px] font-semibold">
+              <button id="subTabGut" onclick="switchScannerLens('gut')" class="px-2.5 py-1 rounded-lg bg-cyan-500 text-slate-950 font-bold">1. Gut</button>
+              <button id="subTabFace" onclick="switchScannerLens('face')" class="px-2.5 py-1 rounded-lg text-slate-400">2. Face</button>
+              <button id="subTabCurve" onclick="switchScannerLens('curve')" class="px-2.5 py-1 rounded-lg text-slate-400">3. Glucose</button>
             </div>
           </div>
 
           <!-- Live Hardware Sensor Summary Strip -->
           <div class="grid grid-cols-3 gap-1.5 text-[10px]">
-            <div onclick="switchMainTab('sensors')" class="bg-white/90 px-2 py-1.5 rounded-xl border border-black/5 cursor-pointer">
-              <span class="text-[8px] uppercase text-[#78736A] font-bold block">🎙️ Gut-Sonic</span>
-              <strong id="badgeGutSonic" class="text-[#1C1B19]">14 clicks/m</strong>
+            <div onclick="switchMainTab('sensors')" class="bento-sub px-2.5 py-1.5 rounded-xl cursor-pointer hover:border-cyan-500/40 transition-all">
+              <span class="text-[8px] uppercase text-slate-400 font-bold block">🎙️ Gut-Sonic</span>
+              <strong id="badgeGutSonic" class="font-mono-tech text-cyan-400">14 clk/m</strong>
             </div>
-            <div onclick="switchMainTab('sensors')" class="bg-white/90 px-2 py-1.5 rounded-xl border border-black/5 cursor-pointer">
-              <span class="text-[8px] uppercase text-[#78736A] font-bold block">👅 Tongue Ama</span>
-              <strong id="badgeTongueAma" class="text-[#4E6E58]">16% (Clean)</strong>
+            <div onclick="switchMainTab('sensors')" class="bento-sub px-2.5 py-1.5 rounded-xl cursor-pointer hover:border-emerald-500/40 transition-all">
+              <span class="text-[8px] uppercase text-slate-400 font-bold block">👅 Tongue Ama</span>
+              <strong id="badgeTongueAma" class="font-mono-tech text-emerald-400">16% Clean</strong>
             </div>
-            <div onclick="switchMainTab('sensors')" class="bg-white/90 px-2 py-1.5 rounded-xl border border-black/5 cursor-pointer">
-              <span class="text-[8px] uppercase text-[#78736A] font-bold block">⚡ Vagal Tone</span>
-              <strong id="badgeVagalTone" class="text-[#1C1B19]">84/100</strong>
+            <div onclick="switchMainTab('sensors')" class="bento-sub px-2.5 py-1.5 rounded-xl cursor-pointer hover:border-indigo-500/40 transition-all">
+              <span class="text-[8px] uppercase text-slate-400 font-bold block">⚡ Vagal HRV</span>
+              <strong id="badgeVagalTone" class="font-mono-tech text-indigo-400">84/100</strong>
             </div>
           </div>
 
-          <!-- LENS 1 & 2: GUT ANATOMY & FACE DERMIS SVG STAGE -->
-          <div id="anatomicalStageGrid" class="grid grid-cols-12 gap-2.5 items-center bg-[#F4F1EA]/90 rounded-2xl p-2.5 border border-black/5">
+          <!-- LENS 1 & 2: GUT ANATOMY & FACE DERMIS SVG STAGE (DARK HUD GRID) -->
+          <div id="anatomicalStageGrid" class="grid grid-cols-12 gap-2.5 items-center hud-grid-bg rounded-2xl p-2.5 border border-white/10">
             <div class="col-span-5 flex justify-center items-center relative">
-              <!-- GUT TRACT SVG -->
+              <!-- GUT TRACT HUD SVG -->
               <svg id="svgGutCanvas" viewBox="0 0 180 230" class="w-full h-48">
-                <path d="M45,12 C32,18 24,40 26,80 C28,125 22,175 28,220 L152,220 C158,175 152,125 154,80 C156,40 148,18 135,12 Z" fill="none" stroke="#1C1B19" stroke-opacity="0.12" stroke-width="1.5" />
-                <path d="M88,8 L88,48" stroke="#8FA893" stroke-width="4.5" stroke-linecap="round" />
+                <path d="M45,12 C32,18 24,40 26,80 C28,125 22,175 28,220 L152,220 C158,175 152,125 154,80 C156,40 148,18 135,12 Z" fill="none" stroke="#334155" stroke-dasharray="3 3" stroke-width="1.2" />
+                <path d="M88,8 L88,48" stroke="#06B6D4" stroke-width="4" stroke-linecap="round" stroke-opacity="0.6" />
+                <!-- STOMACH -->
                 <g onclick="inspectZone('stomach')" class="organ-zone">
-                  <path id="gutStomachShape" d="M82,44 C115,38 138,60 130,90 C122,114 85,116 70,100 C58,88 68,72 80,64 Z" fill="#A3C9A8" stroke="#1C1B19" stroke-width="1.5" />
-                  <text x="98" y="78" font-size="7.5" font-weight="bold" fill="#1C1B19" text-anchor="middle">STOMACH</text>
-                  <text id="svgStomachMetric" x="98" y="89" font-size="7" font-weight="bold" fill="#1C1B19" text-anchor="middle">pH 2.1</text>
+                  <path id="gutStomachShape" d="M82,44 C115,38 138,60 130,90 C122,114 85,116 70,100 C58,88 68,72 80,64 Z" fill="#10B981" fill-opacity="0.28" stroke="#10B981" stroke-width="1.8" />
+                  <text x="98" y="77" font-size="7" font-weight="bold" fill="#F8FAFC" text-anchor="middle">STOMACH</text>
+                  <text id="svgStomachMetric" x="98" y="88" font-size="7" font-family="monospace" font-weight="bold" fill="#6EE7B7" text-anchor="middle">pH 2.1</text>
                 </g>
+                <!-- DUODENUM -->
                 <g onclick="inspectZone('duodenum')" class="organ-zone">
-                  <rect id="gutDuodenumShape" x="62" y="118" width="56" height="52" rx="16" fill="#A3C9A8" stroke="#1C1B19" stroke-width="1.2" />
-                  <text x="90" y="141" font-size="7" font-weight="bold" fill="#1C1B19" text-anchor="middle">DUODENUM</text>
-                  <text id="svgDuodenumMetric" x="90" y="152" font-size="7" font-weight="bold" fill="#1C1B19" text-anchor="middle">Fe Abs: 88%</text>
+                  <rect id="gutDuodenumShape" x="62" y="118" width="56" height="52" rx="14" fill="#06B6D4" fill-opacity="0.22" stroke="#06B6D4" stroke-width="1.5" />
+                  <text x="90" y="140" font-size="6.8" font-weight="bold" fill="#F8FAFC" text-anchor="middle">DUODENUM</text>
+                  <text id="svgDuodenumMetric" x="90" y="152" font-size="6.8" font-family="monospace" font-weight="bold" fill="#67E8F9" text-anchor="middle">Fe: 88%</text>
                 </g>
+                <!-- COLON -->
                 <g onclick="inspectZone('colon')" class="organ-zone">
-                  <path id="gutColonShape" d="M46,185 L44,115 C44,102 60,98 90,100 C120,98 136,102 136,115 L134,180 C132,195 100,195 90,205 L90,222" fill="none" stroke="#8FA893" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" />
-                  <text x="90" y="196" font-size="7" font-weight="bold" fill="#1C1B19" text-anchor="middle" id="svgColonMetric">COLON T4</text>
+                  <path id="gutColonShape" d="M46,185 L44,115 C44,102 60,98 90,100 C120,98 136,102 136,115 L134,180 C132,195 100,195 90,205 L90,222" fill="none" stroke="#10B981" stroke-opacity="0.45" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+                  <text x="90" y="196" font-size="6.8" font-family="monospace" font-weight="bold" fill="#F8FAFC" text-anchor="middle" id="svgColonMetric">COLON T4</text>
                 </g>
                 <g id="svgGasBubblesGroup"></g>
               </svg>
 
-              <!-- FACE DERMIS SVG -->
+              <!-- FACE DERMIS HUD SVG -->
               <svg id="svgFaceCanvas" viewBox="0 0 180 230" class="w-full h-48 hidden">
-                <path d="M40,55 C40,18 140,18 140,55 C145,110 135,168 90,198 C45,168 35,110 40,55 Z" fill="#FFFDF9" stroke="#1C1B19" stroke-width="1.5" />
-                <path id="faceForeheadShape" onclick="inspectZone('forehead')" class="organ-zone" d="M52,50 C65,30 115,30 128,50 C120,68 60,68 52,50 Z" fill="#A3C9A8" fill-opacity="0.75" stroke="#1C1B19" stroke-width="1" />
-                <text x="90" y="51" font-size="6.5" font-weight="bold" fill="#1C1B19" text-anchor="middle">GUT-BRAIN AXIS</text>
-                <text id="svgForeheadVal" x="90" y="61" font-size="6.5" font-weight="bold" fill="#1C1B19" text-anchor="middle">Clear</text>
+                <path d="M40,55 C40,18 140,18 140,55 C145,110 135,168 90,198 C45,168 35,110 40,55 Z" fill="#121521" stroke="#475569" stroke-width="1.5" />
+                <path id="faceForeheadShape" onclick="inspectZone('forehead')" class="organ-zone" d="M52,50 C65,30 115,30 128,50 C120,68 60,68 52,50 Z" fill="#10B981" fill-opacity="0.35" stroke="#10B981" stroke-width="1.2" />
+                <text x="90" y="50" font-size="6" font-weight="bold" fill="#F8FAFC" text-anchor="middle">GUT-BRAIN AXIS</text>
+                <text id="svgForeheadVal" x="90" y="60" font-size="6.5" font-family="monospace" font-weight="bold" fill="#6EE7B7" text-anchor="middle">Clear</text>
                 <g onclick="inspectZone('undereye')" class="organ-zone">
-                  <ellipse id="faceLeftEyeShape" cx="66" cy="92" rx="16" ry="8" fill="#A3C9A8" fill-opacity="0.8" stroke="#1C1B19" stroke-width="1" />
-                  <ellipse id="faceRightEyeShape" cx="114" cy="92" rx="16" ry="8" fill="#A3C9A8" fill-opacity="0.8" stroke="#1C1B19" stroke-width="1" />
-                  <text id="svgEyeVal" x="90" y="109" font-size="6.5" font-weight="bold" fill="#1C1B19" text-anchor="middle">Edema: 14%</text>
+                  <ellipse id="faceLeftEyeShape" cx="66" cy="92" rx="16" ry="8" fill="#06B6D4" fill-opacity="0.35" stroke="#06B6D4" stroke-width="1.2" />
+                  <ellipse id="faceRightEyeShape" cx="114" cy="92" rx="16" ry="8" fill="#06B6D4" fill-opacity="0.35" stroke="#06B6D4" stroke-width="1.2" />
+                  <text id="svgEyeVal" x="90" y="110" font-size="6.5" font-family="monospace" font-weight="bold" fill="#67E8F9" text-anchor="middle">Edema: 14%</text>
                 </g>
                 <g onclick="inspectZone('cheeks')" class="organ-zone">
-                  <circle id="faceLeftCheekShape" cx="58" cy="126" r="13" fill="#A3C9A8" fill-opacity="0.65" stroke="#1C1B19" stroke-width="1" />
-                  <circle id="faceRightCheekShape" cx="122" cy="126" r="13" fill="#A3C9A8" fill-opacity="0.65" stroke="#1C1B19" stroke-width="1" />
-                  <text x="90" y="130" font-size="6" font-weight="bold" fill="#78736A" text-anchor="middle">HEPATIC / ACETALDEHYDE</text>
+                  <circle id="faceLeftCheekShape" cx="58" cy="126" r="12" fill="#10B981" fill-opacity="0.28" stroke="#10B981" stroke-width="1" />
+                  <circle id="faceRightCheekShape" cx="122" cy="126" r="12" fill="#10B981" fill-opacity="0.28" stroke="#10B981" stroke-width="1" />
+                  <text x="90" y="130" font-size="5.5" font-weight="bold" fill="#94A3B8" text-anchor="middle">HEPATIC / ROSACEA</text>
                 </g>
-                <path id="faceJawShape" onclick="inspectZone('jawline')" class="organ-zone" d="M46,142 C56,175 75,192 90,195 C105,192 124,175 134,142 L122,136 C112,164 102,176 90,178 C78,176 68,164 58,136 Z" fill="#A3C9A8" fill-opacity="0.75" stroke="#1C1B19" stroke-width="1" />
-                <text x="90" y="168" font-size="6.5" font-weight="bold" fill="#1C1B19" text-anchor="middle">IGF-1 / SEBUM</text>
-                <text id="svgJawVal" x="90" y="188" font-size="6.5" font-weight="bold" fill="#1C1B19" text-anchor="middle">Sebum: 18%</text>
+                <path id="faceJawShape" onclick="inspectZone('jawline')" class="organ-zone" d="M46,142 C56,175 75,192 90,195 C105,192 124,175 134,142 L122,136 C112,164 102,176 90,178 C78,176 68,164 58,136 Z" fill="#10B981" fill-opacity="0.32" stroke="#10B981" stroke-width="1.2" />
+                <text x="90" y="168" font-size="6" font-weight="bold" fill="#F8FAFC" text-anchor="middle">IGF-1 / SEBUM</text>
+                <text id="svgJawVal" x="90" y="188" font-size="6.5" font-family="monospace" font-weight="bold" fill="#6EE7B7" text-anchor="middle">Sebum: 18%</text>
               </svg>
             </div>
 
             <!-- Organ Telemetry Inspector -->
             <div class="col-span-7 space-y-1.5">
               <div class="flex justify-between items-center">
-                <span id="inspectorZoneBadge" class="text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#1C1B19] text-[#F4F1EA] font-bold">STOMACH TELEMETRY</span>
-                <span id="inspectorLiveMetric" class="text-[10px] font-bold text-[#4E6E58]">94% Synergy</span>
+                <span id="inspectorZoneBadge" class="font-mono-tech text-[8px] uppercase tracking-wider px-2 py-0.5 rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-bold">STOMACH TELEMETRY</span>
+                <span id="inspectorLiveMetric" class="font-mono-tech text-[10px] font-bold text-emerald-400">94% Synergy</span>
               </div>
-              <h3 id="inspectorHeadline" class="serif-display text-xl text-[#1C1B19] leading-tight">Optimal Gastric Churn</h3>
-              <p id="inspectorBiochemistry" class="text-[11px] text-[#5A564F] leading-snug"></p>
-              <div class="bg-white/90 p-2 rounded-xl border border-black/5 space-y-1 text-[10px]">
-                <div class="flex justify-between"><span id="subMetricLabel1" class="text-[#78736A]">Gastric Clearance</span><strong id="subMetricVal1">2.4 hrs</strong></div>
-                <div class="flex justify-between"><span id="subMetricLabel2" class="text-[#78736A]">Bio-Synergy</span><strong id="subMetricVal2" class="text-[#4E6E58]">94%</strong></div>
+              <h3 id="inspectorHeadline" class="font-display text-base font-bold text-white leading-tight">Optimal Gastric Churn</h3>
+              <p id="inspectorBiochemistry" class="text-[11px] text-slate-300 leading-snug"></p>
+              <div class="bento-sub p-2 rounded-xl space-y-1 text-[10px]">
+                <div class="flex justify-between"><span id="subMetricLabel1" class="text-slate-400">Gastric Clearance</span><strong id="subMetricVal1" class="font-mono-tech text-white">2.4 hrs</strong></div>
+                <div class="flex justify-between"><span id="subMetricLabel2" class="text-slate-400">Bio-Synergy</span><strong id="subMetricVal2" class="font-mono-tech text-emerald-400">94%</strong></div>
               </div>
-              <button onclick="applyInstantBioHack()" class="w-full py-1.5 px-2.5 rounded-xl bg-[#4E6E58] text-white text-[10px] font-semibold shadow-sm active:scale-95 transition-transform text-left flex justify-between items-center">
-                <span id="bioHackBtnText" class="truncate pr-1">🌿 Apply Bio-Fix (+18% Synergy)</span>
-                <span class="shrink-0 font-bold">Apply →</span>
+              <button onclick="applyInstantBioHack()" class="w-full py-1.5 px-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] font-semibold active:scale-95 transition-transform text-left flex justify-between items-center">
+                <span id="bioHackBtnText" class="truncate pr-1">⚡ Apply Bio-Fix (+18% Synergy)</span>
+                <span class="shrink-0 font-mono-tech font-bold text-emerald-400">EXEC →</span>
               </button>
             </div>
           </div>
 
           <!-- LENS 3: POST-PRANDIAL GLUCOSE & INSULIN CURVE -->
-          <div id="curveStageBox" class="hidden bg-[#F4F1EA]/90 rounded-2xl p-3 border border-black/5 space-y-2">
+          <div id="curveStageBox" class="hidden hud-grid-bg rounded-2xl p-3 border border-white/10 space-y-2">
             <div class="flex justify-between items-center text-[10px]">
-              <span class="font-bold text-[#1C1B19]">📈 2-Hour Post-Meal Glucose & Insulin Curve</span>
-              <span id="glucosePeakBadge" class="px-2 py-0.5 rounded-full bg-[#9E4747]/15 text-[#9E4747] font-bold">Peak: +32 mg/dL</span>
+              <span class="font-bold text-slate-200">📈 2-Hour Post-Meal Glucose & IGF-1 Curve</span>
+              <span id="glucosePeakBadge" class="font-mono-tech px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold">Peak: +32 mg/dL</span>
             </div>
-            <svg viewBox="0 0 300 110" class="w-full h-28 bg-white rounded-xl border border-black/5 p-1">
-              <line x1="15" y1="35" x2="285" y2="35" stroke="#9E4747" stroke-dasharray="3 3" stroke-width="0.8" />
-              <text x="20" y="31" font-size="7" fill="#9E4747">Glycation & Lipogenesis Threshold (140 mg/dL)</text>
-              <line x1="15" y1="90" x2="285" y2="90" stroke="#78736A" stroke-width="0.6" />
-              <path id="svgGlucoseRawCurve" d="M15,85 Q95,25 160,65 T285,85" fill="none" stroke="#9E4747" stroke-width="2.5" />
-              <path id="svgGlucoseBufferedCurve" d="M15,85 Q95,55 160,74 T285,85" fill="none" stroke="#4E6E58" stroke-dasharray="4 3" stroke-width="2" />
-              <text x="18" y="103" font-size="7" fill="#78736A">0m (Meal)</text>
-              <text x="90" y="103" font-size="7" fill="#78736A">45m (Peak)</text>
-              <text x="175" y="103" font-size="7" fill="#78736A">120m</text>
-              <text x="240" y="103" font-size="7" fill="#4E6E58">--- With Bio-Fix</text>
+            <svg viewBox="0 0 300 110" class="w-full h-28 bg-[#090A0F]/90 rounded-xl border border-white/10 p-1">
+              <line x1="15" y1="35" x2="285" y2="35" stroke="#F43F5E" stroke-dasharray="3 3" stroke-width="0.9" />
+              <text x="20" y="30" font-size="6.8" font-family="monospace" fill="#F43F5E">GLYCATION & SEBUM THRESHOLD (140 mg/dL)</text>
+              <line x1="15" y1="90" x2="285" y2="90" stroke="#475569" stroke-width="0.8" />
+              <path id="svgGlucoseRawCurve" d="M15,85 Q95,25 160,65 T285,85" fill="none" stroke="#F43F5E" stroke-width="2.5" />
+              <path id="svgGlucoseBufferedCurve" d="M15,85 Q95,55 160,74 T285,85" fill="none" stroke="#10B981" stroke-dasharray="4 3" stroke-width="2.2" />
+              <text x="18" y="103" font-size="6.5" font-family="monospace" fill="#94A3B8">0m</text>
+              <text x="88" y="103" font-size="6.5" font-family="monospace" fill="#94A3B8">45m (Peak)</text>
+              <text x="170" y="103" font-size="6.5" font-family="monospace" fill="#94A3B8">120m</text>
+              <text x="230" y="103" font-size="6.5" font-family="monospace" fill="#10B981">--- Bio-Fix</text>
             </svg>
-            <p id="glucoseCurveAdvice" class="text-[11px] text-[#5A564F] leading-snug"></p>
+            <p id="glucoseCurveAdvice" class="text-[11px] text-slate-300 leading-snug"></p>
           </div>
 
           <!-- Organ Quick-Select Pills -->
           <div class="flex gap-1.5 overflow-x-auto pb-0.5 text-[10px]">
-            <button onclick="switchScannerLens('gut'); inspectZone('stomach')" class="px-2.5 py-1 rounded-full bg-white border border-black/10 font-semibold shrink-0">🔥 Stomach</button>
-            <button onclick="switchScannerLens('gut'); inspectZone('duodenum')" class="px-2.5 py-1 rounded-full bg-white border border-black/10 font-semibold shrink-0">🧬 Duodenum</button>
-            <button onclick="switchScannerLens('gut'); inspectZone('colon')" class="px-2.5 py-1 rounded-full bg-white border border-black/10 font-semibold shrink-0">🫧 Colon</button>
-            <button onclick="switchScannerLens('face'); inspectZone('undereye')" class="px-2.5 py-1 rounded-full bg-white border border-black/10 font-semibold shrink-0">👀 Under-Eye Edema</button>
-            <button onclick="switchScannerLens('face'); inspectZone('jawline')" class="px-2.5 py-1 rounded-full bg-white border border-black/10 font-semibold shrink-0">✨ Jawline IGF-1</button>
-            <button onclick="switchScannerLens('face'); inspectZone('cheeks')" class="px-2.5 py-1 rounded-full bg-white border border-black/10 font-semibold shrink-0">🍷 Hepatic Cheeks</button>
+            <button onclick="switchScannerLens('gut'); inspectZone('stomach')" class="px-2.5 py-1 rounded-lg bento-sub text-slate-200 font-semibold shrink-0 hover:border-cyan-400">🔥 Stomach</button>
+            <button onclick="switchScannerLens('gut'); inspectZone('duodenum')" class="px-2.5 py-1 rounded-lg bento-sub text-slate-200 font-semibold shrink-0 hover:border-cyan-400">🧬 Duodenum</button>
+            <button onclick="switchScannerLens('gut'); inspectZone('colon')" class="px-2.5 py-1 rounded-lg bento-sub text-slate-200 font-semibold shrink-0 hover:border-cyan-400">🫧 Colon</button>
+            <button onclick="switchScannerLens('face'); inspectZone('undereye')" class="px-2.5 py-1 rounded-lg bento-sub text-slate-200 font-semibold shrink-0 hover:border-cyan-400">👀 Eye Edema</button>
+            <button onclick="switchScannerLens('face'); inspectZone('jawline')" class="px-2.5 py-1 rounded-lg bento-sub text-slate-200 font-semibold shrink-0 hover:border-cyan-400">✨ Jaw IGF-1</button>
+            <button onclick="switchScannerLens('face'); inspectZone('cheeks')" class="px-2.5 py-1 rounded-lg bento-sub text-slate-200 font-semibold shrink-0 hover:border-cyan-400">🍷 Hepatic Cheeks</button>
           </div>
         </div>
 
         <!-- Bio-Whisper Summary Card on Home Tab -->
-        <div class="silk-pill rounded-[22px] p-3.5 space-y-1.5">
+        <div class="bento-card rounded-2xl p-3.5 space-y-1.5">
           <div class="flex justify-between items-center">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-[#4E6E58]" id="recipeBoxHeader">Active Molecular Synergy & Ingredients</span>
-            <span id="synergyBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#4E6E58]/15 text-[#4E6E58]">Synergy: 95%</span>
+            <span class="font-mono-tech text-[9px] font-bold uppercase tracking-wider text-emerald-400" id="recipeBoxHeader">MOLECULAR SYNERGY & ACTIVE COMPOUNDS</span>
+            <span id="synergyBadge" class="font-mono-tech text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Synergy: 95%</span>
           </div>
-          <p id="whisperBody" class="text-[11px] text-[#5A564F] leading-relaxed"></p>
+          <p id="whisperBody" class="text-[11px] text-slate-300 leading-relaxed"></p>
           <div id="ingredientPills" class="flex flex-wrap gap-1 pt-0.5"></div>
         </div>
       </div>
@@ -245,82 +296,82 @@
       <!-- TAB 2: CLINICAL NUTRIENTS & CLICKABLE MEAL HISTORY LEDGER         -->
       <!-- ================================================================= -->
       <div id="tabView-nutrients" class="space-y-3 hidden">
-        <div class="silk-pill rounded-[24px] p-3.5 space-y-2.5">
+        <div class="bento-card rounded-2xl p-3.5 space-y-2.5">
           <div class="flex justify-between items-baseline">
             <div>
-              <span id="nutritionCardSubtitle" class="text-[9px] uppercase tracking-widest text-[#4E6E58] font-bold block">IFCT & USDA Calibrated</span>
-              <h3 id="nutritionCardTitle" class="serif-display text-2xl text-[#1C1B19]">Full-Day Cumulative Nutrients</h3>
+              <span id="nutritionCardSubtitle" class="font-mono-tech text-[9px] uppercase tracking-widest text-cyan-400 font-bold block">IFCT & USDA CALIBRATED</span>
+              <h3 id="nutritionCardTitle" class="font-display text-lg font-bold text-white">Full-Day Cumulative Nutrients</h3>
             </div>
-            <span id="totalCaloriesBadge" class="serif-display text-2xl font-bold text-[#1C1B19]">0 / 2100 kcal</span>
+            <span id="totalCaloriesBadge" class="font-mono-tech text-lg font-bold text-emerald-400">0 / 2100 kcal</span>
           </div>
 
-          <!-- 4 Macro Cards + Ethanol/Alcohol Warning Badge -->
+          <!-- 4 Macro Cards -->
           <div class="grid grid-cols-4 gap-1.5 text-center text-[11px]">
-            <div class="bg-white/90 p-2 rounded-xl border border-black/5">
-              <span class="text-[#78736A] text-[9px] block">Protein</span>
-              <strong id="macroProtein" class="text-[#1C1B19]">0g</strong>
-              <span id="targetProtein" class="text-[8px] text-[#78736A] block">/ 100g</span>
+            <div class="bento-sub p-2 rounded-xl">
+              <span class="text-slate-400 text-[9px] block">Protein</span>
+              <strong id="macroProtein" class="font-mono-tech text-white text-sm">0g</strong>
+              <span id="targetProtein" class="font-mono-tech text-[8px] text-slate-500 block">/ 100g</span>
             </div>
-            <div class="bg-white/90 p-2 rounded-xl border border-black/5">
-              <span class="text-[#78736A] text-[9px] block">Net Carbs</span>
-              <strong id="macroCarbs" class="text-[#1C1B19]">0g</strong>
-              <span id="targetCarbs" class="text-[8px] text-[#78736A] block">/ 185g</span>
+            <div class="bento-sub p-2 rounded-xl">
+              <span class="text-slate-400 text-[9px] block">Net Carbs</span>
+              <strong id="macroCarbs" class="font-mono-tech text-white text-sm">0g</strong>
+              <span id="targetCarbs" class="font-mono-tech text-[8px] text-slate-500 block">/ 185g</span>
             </div>
-            <div class="bg-white/90 p-2 rounded-xl border border-black/5">
-              <span class="text-[#78736A] text-[9px] block">Prebiotic Fib</span>
-              <strong id="macroFiber" class="text-[#4E6E58]">0g</strong>
-              <span id="targetFiber" class="text-[8px] text-[#78736A] block">/ 32g</span>
+            <div class="bento-sub p-2 rounded-xl">
+              <span class="text-slate-400 text-[9px] block">Prebiotic Fib</span>
+              <strong id="macroFiber" class="font-mono-tech text-emerald-400 text-sm">0g</strong>
+              <span id="targetFiber" class="font-mono-tech text-[8px] text-slate-500 block">/ 32g</span>
             </div>
-            <div class="bg-white/90 p-2 rounded-xl border border-black/5">
-              <span class="text-[#78736A] text-[9px] block">Lipids</span>
-              <strong id="macroFat" class="text-[#1C1B19]">0g</strong>
-              <span id="targetFat" class="text-[8px] text-[#78736A] block">/ 65g</span>
+            <div class="bento-sub p-2 rounded-xl">
+              <span class="text-slate-400 text-[9px] block">Lipids</span>
+              <strong id="macroFat" class="font-mono-tech text-white text-sm">0g</strong>
+              <span id="targetFat" class="font-mono-tech text-[8px] text-slate-500 block">/ 65g</span>
             </div>
           </div>
 
-          <div id="alcoholAlertBanner" class="hidden bg-[#9E4747]/15 border border-[#9E4747]/30 text-[#9E4747] px-3 py-1.5 rounded-xl text-[10px] font-semibold">
-            🍷 Ethanol Detected: <span id="ethanolGramsVal">0</span>g pure alcohol (7 kcal/g). Contains 0g protein, 0g fiber, blocks hepatic fat oxidation, and dehydrates periorbital dermis.
+          <div id="alcoholAlertBanner" class="hidden bg-rose-500/15 border border-rose-500/40 text-rose-300 px-3 py-2 rounded-xl text-[10px] font-medium">
+            🍷 <strong>Ethanol Load (<span id="ethanolGramsVal" class="font-mono-tech">0</span>g pure alcohol • 7 kcal/g):</strong> Strictly 0g protein & 0g fiber. Pauses hepatic lipid oxidation and triggers under-eye ADH rebound edema.
           </div>
 
           <!-- 6 Micronutrient Progress Bars -->
           <div class="grid grid-cols-2 gap-2.5 text-xs pt-1">
             <div>
-              <div class="flex justify-between text-[10px] mb-1"><span>Iron (Ferritin/O2)</span><span id="microIronVal" class="font-bold">0 / 18 mg</span></div>
-              <div class="w-full h-1.5 bg-black/5 rounded-full overflow-hidden"><div id="barIron" class="h-full bg-[#1C1B19] rounded-full transition-all" style="width: 0%"></div></div>
+              <div class="flex justify-between text-[10px] mb-1"><span class="text-slate-300">Iron (Ferritin)</span><span id="microIronVal" class="font-mono-tech text-cyan-400 font-bold">0 / 18 mg</span></div>
+              <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden"><div id="barIron" class="h-full bg-cyan-400 rounded-full transition-all" style="width: 0%"></div></div>
             </div>
             <div>
-              <div class="flex justify-between text-[10px] mb-1"><span>Magnesium (ATP)</span><span id="microMagVal" class="font-bold">0 / 400 mg</span></div>
-              <div class="w-full h-1.5 bg-black/5 rounded-full overflow-hidden"><div id="barMag" class="h-full bg-[#4E6E58] rounded-full transition-all" style="width: 0%"></div></div>
+              <div class="flex justify-between text-[10px] mb-1"><span class="text-slate-300">Magnesium (ATP)</span><span id="microMagVal" class="font-mono-tech text-emerald-400 font-bold">0 / 400 mg</span></div>
+              <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden"><div id="barMag" class="h-full bg-emerald-400 rounded-full transition-all" style="width: 0%"></div></div>
             </div>
             <div>
-              <div class="flex justify-between text-[10px] mb-1"><span>Zinc (Dermis Shield)</span><span id="microZincVal" class="font-bold">0 / 11 mg</span></div>
-              <div class="w-full h-1.5 bg-black/5 rounded-full overflow-hidden"><div id="barZinc" class="h-full bg-[#B87D6B] rounded-full transition-all" style="width: 0%"></div></div>
+              <div class="flex justify-between text-[10px] mb-1"><span class="text-slate-300">Zinc (Dermis)</span><span id="microZincVal" class="font-mono-tech text-amber-400 font-bold">0 / 11 mg</span></div>
+              <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden"><div id="barZinc" class="h-full bg-amber-400 rounded-full transition-all" style="width: 0%"></div></div>
             </div>
             <div>
-              <div class="flex justify-between text-[10px] mb-1"><span>Sodium (Edema Load)</span><span id="microSodVal" class="font-bold">0 / 2000 mg</span></div>
-              <div class="w-full h-1.5 bg-black/5 rounded-full overflow-hidden"><div id="barSod" class="h-full bg-[#9E4747] rounded-full transition-all" style="width: 0%"></div></div>
+              <div class="flex justify-between text-[10px] mb-1"><span class="text-slate-300">Sodium (Edema)</span><span id="microSodVal" class="font-mono-tech text-rose-400 font-bold">0 / 2000 mg</span></div>
+              <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden"><div id="barSod" class="h-full bg-rose-500 rounded-full transition-all" style="width: 0%"></div></div>
             </div>
             <div>
-              <div class="flex justify-between text-[10px] mb-1"><span>Calcium (Asthi)</span><span id="microCalcVal" class="font-bold">0 / 1000 mg</span></div>
-              <div class="w-full h-1.5 bg-black/5 rounded-full overflow-hidden"><div id="barCalc" class="h-full bg-[#8FA893] rounded-full transition-all" style="width: 0%"></div></div>
+              <div class="flex justify-between text-[10px] mb-1"><span class="text-slate-300">Calcium</span><span id="microCalcVal" class="font-mono-tech text-indigo-300 font-bold">0 / 1000 mg</span></div>
+              <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden"><div id="barCalc" class="h-full bg-indigo-400 rounded-full transition-all" style="width: 0%"></div></div>
             </div>
             <div>
-              <div class="flex justify-between text-[10px] mb-1"><span>Vitamin B12</span><span id="microB12Val" class="font-bold">0 / 2.4 mcg</span></div>
-              <div class="w-full h-1.5 bg-black/5 rounded-full overflow-hidden"><div id="barB12" class="h-full bg-[#6B7DB8] rounded-full transition-all" style="width: 0%"></div></div>
+              <div class="flex justify-between text-[10px] mb-1"><span class="text-slate-300">Vitamin B12</span><span id="microB12Val" class="font-mono-tech text-purple-400 font-bold">0 / 2.4 mcg</span></div>
+              <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden"><div id="barB12" class="h-full bg-purple-400 rounded-full transition-all" style="width: 0%"></div></div>
             </div>
           </div>
         </div>
 
         <!-- Clickable Historical Meal Timeline -->
-        <div class="silk-pill rounded-[24px] p-3.5 space-y-2.5">
+        <div class="bento-card rounded-2xl p-3.5 space-y-2.5">
           <div class="flex justify-between items-center">
             <div>
-              <span class="text-[9px] uppercase tracking-wider text-[#4E6E58] font-bold block">Tap Any Meal to Isolate Its Exact Nutrients</span>
-              <h3 class="serif-display text-xl text-[#1C1B19]">Logged Meals History (<span id="mealCountLabel">0</span>)</h3>
+              <span class="font-mono-tech text-[8px] uppercase tracking-wider text-emerald-400 font-bold block">TAP ANY MEAL TO ISOLATE ITS TELEMETRY</span>
+              <h3 class="font-display text-base font-bold text-white">Logged Meals Ledger (<span id="mealCountLabel">0</span>)</h3>
             </div>
             <div class="flex gap-2">
-              <button onclick="loadDemoMeals(true)" class="text-[10px] text-[#4E6E58] font-bold underline">+ Reset Demo</button>
-              <button onclick="clearLocalVault()" class="text-[10px] text-[#9E4747] font-bold underline">Clear All</button>
+              <button onclick="loadDemoMeals(true)" class="text-[10px] text-cyan-400 font-bold underline">+ Reset Demo</button>
+              <button onclick="clearLocalVault()" class="text-[10px] text-rose-400 font-bold underline">Clear</button>
             </div>
           </div>
           <div id="localHistoryList" class="space-y-2 text-xs"></div>
@@ -331,25 +382,25 @@
       <!-- TAB 3: LIVE GPS + OVERPASS + GEMINI RESTAURANT MENU CONCIERGE     -->
       <!-- ================================================================= -->
       <div id="tabView-geomenu" class="space-y-3 hidden">
-        <div class="silk-pill rounded-[24px] p-3.5 space-y-2.5 border-l-4 border-[#1C1B19]">
+        <div class="bento-card rounded-2xl p-3.5 space-y-2.5 border-l-4 border-l-cyan-400">
           <div class="flex justify-between items-start gap-2">
             <div>
-              <span class="text-[9px] uppercase tracking-widest text-[#4E6E58] font-bold block">📍 Real Overpass GPS + Gemini Cuisine Grounding</span>
-              <h3 class="serif-display text-2xl text-[#1C1B19] leading-none">Nearby Bio-Aligned Menus</h3>
-              <p id="userLocationLabel" class="text-[10px] text-[#78736A] mt-0.5">Fetches real restaurants within 1.5 km of your live GPS & matches authentic dishes to their cuisine.</p>
+              <span class="font-mono-tech text-[9px] uppercase tracking-widest text-cyan-400 font-bold block">📍 OVERPASS GPS + GEMINI MENU GROUNDING</span>
+              <h3 class="font-display text-lg font-bold text-white leading-none mt-0.5">Nearby Bio-Aligned Menus</h3>
+              <p id="userLocationLabel" class="text-[10px] text-slate-400 mt-1">Scans real venues within 1.5 km & matches authentic menu items to your deficit.</p>
             </div>
-            <button id="scanNearbyBtn" onclick="scanNearbyRestaurantMenus()" class="px-3 py-2 rounded-2xl bg-[#1C1B19] text-[#F4F1EA] text-[10px] font-bold shrink-0 shadow active:scale-95">
-              📍 Scan GPS
+            <button id="scanNearbyBtn" onclick="scanNearbyRestaurantMenus()" class="px-3 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 font-mono-tech text-[10px] font-extrabold shrink-0 shadow active:scale-95">
+              📍 SCAN GPS
             </button>
           </div>
 
-          <div id="menuDeficitCriteriaBanner" class="bg-[#F4F1EA] px-3 py-1.5 rounded-xl text-[10px] text-[#5A564F] font-medium border border-black/5">
+          <div id="menuDeficitCriteriaBanner" class="bento-sub px-3 py-1.5 rounded-xl text-[10px] text-slate-300 font-medium">
             🎯 <strong>Bio-Filter:</strong> Calculating your remaining protein & iron deficit...
           </div>
 
           <div id="nearbyMenusList" class="space-y-2"></div>
 
-          <button id="showMoreMenusBtn" onclick="toggleShowMoreMenus()" class="hidden w-full py-2.5 rounded-2xl bg-white border border-black/15 text-xs font-bold text-[#1C1B19] shadow-sm active:scale-95 transition-all">
+          <button id="showMoreMenusBtn" onclick="toggleShowMoreMenus()" class="hidden w-full py-2.5 rounded-xl bento-sub text-xs font-bold text-cyan-400 border border-cyan-500/30 active:scale-95 transition-all">
             + Show 5 More Verified Nearby Options
           </button>
         </div>
@@ -359,62 +410,62 @@
       <!-- TAB 4: SMARTPHONE HARDWARE BIO-SENSOR LAB (MIC FFT + TONGUE RGB)  -->
       <!-- ================================================================= -->
       <div id="tabView-sensors" class="space-y-3 hidden">
-        <div class="silk-pill rounded-[24px] p-4 space-y-3.5">
+        <div class="bento-card rounded-2xl p-4 space-y-3.5">
           <div>
-            <span class="text-[9px] uppercase tracking-widest text-[#4E6E58] font-bold block">Pixel Hardware DSP & Optical Chromatics</span>
-            <h2 class="serif-display text-2xl text-[#1C1B19]">Smartphone Bio-Sensor Lab</h2>
+            <span class="font-mono-tech text-[9px] uppercase tracking-widest text-emerald-400 font-bold block">PIXEL HARDWARE DSP & OPTICAL CHROMATICS</span>
+            <h2 class="font-display text-lg font-bold text-white">Smartphone Bio-Sensor Lab</h2>
           </div>
 
           <!-- Sensor 1: Web Audio API FFT Microphone Scanner -->
-          <div class="bg-white rounded-2xl p-3.5 border border-black/10 space-y-2">
+          <div class="bento-sub rounded-2xl p-3.5 space-y-2">
             <div class="flex justify-between items-center">
-              <span class="text-[10px] uppercase tracking-wider font-bold text-[#1C1B19]">🎙️ 1. Acoustic Gut-Sonic & Vagal FFT Scanner</span>
-              <span id="micStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-black/5 text-[#78736A]">Mic Idle</span>
+              <span class="font-mono-tech text-[10px] uppercase tracking-wider font-bold text-cyan-400">🎙️ 1. Acoustic Gut-Sonic & Vagal FFT</span>
+              <span id="micStatusBadge" class="font-mono-tech text-[9px] font-bold px-2 py-0.5 rounded bg-white/10 text-slate-300">IDLE</span>
             </div>
-            <p class="text-[11px] text-[#5A564F] leading-snug">
-              Press your phone's bottom mic against your lower abdomen (100–450 Hz bowel motility clicks) OR hum a steady "Ahhh" (Vagal Nerve vocal jitter).
+            <p class="text-[11px] text-slate-400 leading-snug">
+              Press your phone's bottom mic against your lower abdomen (100–450 Hz bowel motility clicks) OR hum a steady "Ahhh" (Vagal HRV jitter).
             </p>
-            <canvas id="audioWaveformCanvas" width="320" height="56" class="w-full h-14 bg-[#1C1B19] rounded-xl"></canvas>
+            <canvas id="audioWaveformCanvas" width="320" height="56" class="w-full h-14 bg-[#050608] rounded-xl border border-white/10"></canvas>
             <div class="grid grid-cols-2 gap-2">
-              <button onclick="startHardwareMicScan('gut')" class="py-2.5 rounded-xl bg-[#1C1B19] text-[#F4F1EA] text-xs font-semibold active:scale-95">🔊 Scan Gut Motility (6s)</button>
-              <button onclick="startHardwareMicScan('vagal')" class="py-2.5 rounded-xl bg-[#4E6E58] text-white text-xs font-semibold active:scale-95">🧘‍♂️ Scan Vagal Voice (6s)</button>
+              <button onclick="startHardwareMicScan('gut')" class="py-2.5 rounded-xl bg-cyan-500 text-slate-950 text-xs font-extrabold active:scale-95">🔊 Scan Gut (6s)</button>
+              <button onclick="startHardwareMicScan('vagal')" class="py-2.5 rounded-xl bg-emerald-500 text-slate-950 text-xs font-extrabold active:scale-95">🧘‍♂️ Scan Vagal (6s)</button>
             </div>
-            <p id="micScanResultText" class="text-[11px] font-medium text-[#4E6E58]"></p>
+            <p id="micScanResultText" class="text-[11px] font-medium text-emerald-400"></p>
           </div>
 
           <!-- Sensor 2: Optical Tongue RGB Chromaticity Matrix -->
-          <div class="bg-white rounded-2xl p-3.5 border border-black/10 space-y-2">
+          <div class="bento-sub rounded-2xl p-3.5 space-y-2">
             <div class="flex justify-between items-center">
-              <span class="text-[10px] uppercase tracking-wider font-bold text-[#1C1B19]">👅 2. Optical Tongue (Jihva) RGB Chromatic Scan</span>
-              <span id="tongueScoreBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#4E6E58]/15 text-[#4E6E58]">Ready</span>
+              <span class="font-mono-tech text-[10px] uppercase tracking-wider font-bold text-emerald-400">👅 2. Optical Tongue (Jihva) RGB Matrix</span>
+              <span id="tongueScoreBadge" class="font-mono-tech text-[9px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">READY</span>
             </div>
-            <p class="text-[11px] text-[#5A564F] leading-snug">
-              Analyzes RGB pixel chromaticity to quantify posterior tongue biofilm (*Ama* endotoxin load) and hydration erythema.
+            <p class="text-[11px] text-slate-400 leading-snug">
+              Quantifies posterior tongue biofilm (*Ama* endotoxin load) and mucosal erythema via RGB pixel chromaticity.
             </p>
             <div class="grid grid-cols-2 gap-2">
-              <label class="py-2.5 px-3 rounded-xl bg-[#1C1B19] text-[#F4F1EA] text-xs font-semibold text-center cursor-pointer">
-                📸 Snap Tongue Selfie
+              <label class="py-2.5 px-3 rounded-xl bg-white/10 text-white text-xs font-bold text-center cursor-pointer hover:bg-white/15">
+                📸 Snap Tongue
                 <input type="file" accept="image/*" capture="user" class="hidden" onchange="analyzeTongueChromatics(event)" />
               </label>
-              <button onclick="simulateOpticalTongueScan()" class="py-2.5 px-3 rounded-xl bg-black/5 text-[#1C1B19] text-xs font-semibold">
-                ⚡ Calibrated Demo Scan
+              <button onclick="simulateOpticalTongueScan()" class="py-2.5 px-3 rounded-xl border border-cyan-500/40 text-cyan-400 text-xs font-bold">
+                ⚡ Calibrated Demo
               </button>
             </div>
-            <p id="tongueScanResultText" class="text-[11px] font-medium text-[#1C1B19]"></p>
+            <p id="tongueScanResultText" class="text-[11px] font-medium text-slate-200"></p>
           </div>
 
           <!-- Sensor 3: Stool Bristol & Buoyancy -->
-          <div class="bg-white rounded-2xl p-3.5 border border-black/10 space-y-2">
-            <span class="text-[10px] uppercase tracking-wider font-bold text-[#1C1B19] block">◎ 3. Stool Transit (Bristol Scale) & Buoyancy</span>
+          <div class="bento-sub rounded-2xl p-3.5 space-y-2">
+            <span class="font-mono-tech text-[10px] uppercase tracking-wider font-bold text-slate-300 block">◎ 3. Stool Transit (Bristol) & Buoyancy</span>
             <div class="grid grid-cols-4 gap-1.5">
-              <button onclick="selectPebble(2)" id="peb-2" class="p-2 rounded-xl bg-white border border-black/10 text-[10px] font-bold">🪨 T2 Dry</button>
-              <button onclick="selectPebble(4)" id="peb-4" class="p-2 rounded-xl bg-[#1C1B19] text-white text-[10px] font-bold">🌿 T4 Ideal</button>
-              <button onclick="selectPebble(5)" id="peb-5" class="p-2 rounded-xl bg-white border border-black/10 text-[10px] font-bold">☁️ T5 Soft</button>
-              <button onclick="selectPebble(6)" id="peb-6" class="p-2 rounded-xl bg-white border border-black/10 text-[10px] font-bold">⚡ T6 Rapid</button>
+              <button onclick="selectPebble(2)" id="peb-2" class="p-2 rounded-xl bg-[#090A0F] border border-white/10 text-slate-400 text-[10px] font-bold">🪨 T2 Dry</button>
+              <button onclick="selectPebble(4)" id="peb-4" class="p-2 rounded-xl bg-emerald-500 text-slate-950 text-[10px] font-extrabold">🌿 T4 Ideal</button>
+              <button onclick="selectPebble(5)" id="peb-5" class="p-2 rounded-xl bg-[#090A0F] border border-white/10 text-slate-400 text-[10px] font-bold">☁️ T5 Soft</button>
+              <button onclick="selectPebble(6)" id="peb-6" class="p-2 rounded-xl bg-[#090A0F] border border-white/10 text-slate-400 text-[10px] font-bold">⚡ T6 Rapid</button>
             </div>
             <div class="grid grid-cols-2 gap-2 pt-1">
-              <button onclick="selectBuoyancy('float')" id="buoy-float" class="py-2 rounded-xl bg-[#1C1B19] text-white text-[10px] font-semibold">🌊 Floats (Nirama Clean)</button>
-              <button onclick="selectBuoyancy('sink')" id="buoy-sink" class="py-2 rounded-xl bg-white border border-black/10 text-[10px] font-semibold">⚓ Sinks (Sama Heavy)</button>
+              <button onclick="selectBuoyancy('float')" id="buoy-float" class="py-2 rounded-xl bg-cyan-500 text-slate-950 text-[10px] font-extrabold">🌊 Floats (Clean)</button>
+              <button onclick="selectBuoyancy('sink')" id="buoy-sink" class="py-2 rounded-xl bg-[#090A0F] border border-white/10 text-slate-400 text-[10px] font-bold">⚓ Sinks (Sama Heavy)</button>
             </div>
           </div>
         </div>
@@ -423,19 +474,19 @@
     </main>
 
     <!-- =================================================================== -->
-    <!-- SEGMENTED 4-TAB BOTTOM NAVIGATION BAR (ZERO VERTICAL CLUTTER)       -->
+    <!-- SEGMENTED 4-TAB BOTTOM NAVIGATION BAR (OBSIDIAN GLASS)              -->
     <!-- =================================================================== -->
-    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-30 bg-[#F4F1EA]/95 backdrop-blur-md border-t border-black/10 px-2 py-1.5 grid grid-cols-4 gap-1 text-center shadow-lg">
-      <button onclick="switchMainTab('biotwin')" id="navBtn-biotwin" class="py-1 rounded-xl bg-[#1C1B19] text-[#F4F1EA] flex flex-col items-center justify-center text-[10px] font-bold transition-all">
+    <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-30 bg-[#090A0F]/95 backdrop-blur-xl border-t border-white/10 px-2 py-1.5 grid grid-cols-4 gap-1 text-center">
+      <button onclick="switchMainTab('biotwin')" id="navBtn-biotwin" class="py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 flex flex-col items-center justify-center text-[10px] font-extrabold transition-all">
         <span>🧬 Bio-Twin</span>
       </button>
-      <button onclick="switchMainTab('nutrients')" id="navBtn-nutrients" class="py-1 rounded-xl text-[#78736A] flex flex-col items-center justify-center text-[10px] font-semibold transition-all">
+      <button onclick="switchMainTab('nutrients')" id="navBtn-nutrients" class="py-1.5 rounded-xl text-slate-400 flex flex-col items-center justify-center text-[10px] font-semibold transition-all">
         <span>🥗 Nutrients</span>
       </button>
-      <button onclick="switchMainTab('geomenu')" id="navBtn-geomenu" class="py-1 rounded-xl text-[#78736A] flex flex-col items-center justify-center text-[10px] font-semibold transition-all">
+      <button onclick="switchMainTab('geomenu')" id="navBtn-geomenu" class="py-1.5 rounded-xl text-slate-400 flex flex-col items-center justify-center text-[10px] font-semibold transition-all">
         <span>📍 Eat Out AI</span>
       </button>
-      <button onclick="switchMainTab('sensors')" id="navBtn-sensors" class="py-1 rounded-xl text-[#78736A] flex flex-col items-center justify-center text-[10px] font-semibold transition-all">
+      <button onclick="switchMainTab('sensors')" id="navBtn-sensors" class="py-1.5 rounded-xl text-slate-400 flex flex-col items-center justify-center text-[10px] font-semibold transition-all">
         <span>🎙️ Sensors</span>
       </button>
     </nav>
@@ -443,46 +494,46 @@
     <!-- =================================================================== -->
     <!-- MODAL DRAWER: MULTIMODAL MEAL SCANNER (CAMERA + VOICE + GEMINI AI)  -->
     <!-- =================================================================== -->
-    <div id="mealSheet" class="fluid-sheet sheet-closed absolute inset-0 z-40 bg-black/45 backdrop-blur-sm flex flex-col justify-end">
-      <div class="bg-[#F4F1EA] rounded-t-[32px] p-5 space-y-3 shadow-2xl max-h-[88dvh] overflow-y-auto">
+    <div id="mealSheet" class="fluid-sheet sheet-closed absolute inset-0 z-40 bg-black/75 backdrop-blur-md flex flex-col justify-end">
+      <div class="bg-[#121521] border-t border-white/15 rounded-t-[32px] p-5 space-y-3 shadow-2xl max-h-[88dvh] overflow-y-auto">
         <div class="flex justify-between items-center">
           <div>
-            <span class="text-[10px] uppercase tracking-widest text-[#4E6E58] font-bold">Gemini 2.5 Flash Vision + Strict Biochemical Parser</span>
-            <h2 class="serif-display text-3xl">Log or Snap Meal</h2>
+            <span class="font-mono-tech text-[9px] uppercase tracking-widest text-emerald-400 font-bold">GEMINI 2.5 FLASH VISION + IFCT PARSER</span>
+            <h2 class="font-display text-2xl font-bold text-white">Log or Snap Meal</h2>
           </div>
-          <button onclick="closeSheets()" class="text-xs font-semibold px-3 py-1 rounded-full bg-black/5">Close</button>
+          <button onclick="closeSheets()" class="text-xs font-semibold px-3 py-1 rounded-full bg-white/10 text-slate-300">Close</button>
         </div>
 
         <div class="grid grid-cols-3 gap-2">
-          <label class="py-2.5 px-2 rounded-2xl bg-[#1C1B19] text-[#F4F1EA] text-[11px] font-semibold text-center cursor-pointer flex items-center justify-center gap-1 shadow">
+          <label class="py-2.5 px-2 rounded-xl bg-cyan-500 text-slate-950 text-[11px] font-extrabold text-center cursor-pointer flex items-center justify-center gap-1 shadow">
             <span>📸 Camera</span>
             <input type="file" accept="image/*" capture="environment" class="hidden" onchange="handleFoodPhoto(event)" />
           </label>
-          <label class="py-2.5 px-2 rounded-2xl bg-white text-[#1C1B19] border border-black/15 text-[11px] font-semibold text-center cursor-pointer flex items-center justify-center gap-1">
+          <label class="py-2.5 px-2 rounded-xl bento-sub text-slate-200 text-[11px] font-semibold text-center cursor-pointer flex items-center justify-center gap-1">
             <span>🖼️ Gallery</span>
             <input type="file" accept="image/*" class="hidden" onchange="handleFoodPhoto(event)" />
           </label>
-          <button onclick="startVoiceMealDictation()" id="voiceDictateBtn" class="py-2.5 px-2 rounded-2xl bg-[#4E6E58] text-white text-[11px] font-semibold flex items-center justify-center gap-1 shadow">
-            <span>🎙️ Speak Meal</span>
+          <button onclick="startVoiceMealDictation()" id="voiceDictateBtn" class="py-2.5 px-2 rounded-xl bg-emerald-500 text-slate-950 text-[11px] font-extrabold flex items-center justify-center gap-1 shadow">
+            <span>🎙️ Speak</span>
           </button>
         </div>
 
         <div id="foodPhotoPreviewContainer" class="hidden relative">
-          <img id="foodPhotoPreview" class="w-full h-28 object-cover rounded-2xl border border-black/10" />
-          <span class="absolute top-2 left-2 bg-black/75 text-white text-[9px] px-2 py-0.5 rounded-full font-bold">✨ Ready for Gemini Vision</span>
+          <img id="foodPhotoPreview" class="w-full h-28 object-cover rounded-2xl border border-cyan-500/40" />
+          <span class="absolute top-2 left-2 bg-black/80 text-cyan-400 font-mono-tech text-[9px] px-2 py-0.5 rounded-md font-bold">✨ READY FOR GEMINI VISION</span>
         </div>
 
         <div class="flex flex-wrap gap-1.5">
-          <button onclick="document.getElementById('fluidFoodInput').value='2 Pegs Vodka Cocktail with Cranberry Mixer'" class="px-2.5 py-1 rounded-full text-[10px] bg-white border border-[#9E4747]/30 text-[#9E4747] font-semibold">🍸 Test Alcohol: Vodka Cocktail (0g Protein)</button>
-          <button onclick="document.getElementById('fluidFoodInput').value='150g Grilled Paneer Tikka, 2 Whole Wheat Roti & Mint Chutney'" class="px-2.5 py-1 rounded-full text-[10px] bg-white border border-black/10 font-medium">🏋️ High-Protein: Paneer Tikka + 2 Roti</button>
-          <button onclick="document.getElementById('fluidFoodInput').value='2 Paneer Parathas with Curd, Pickle & Iced Coffee'" class="px-2.5 py-1 rounded-full text-[10px] bg-white border border-black/10 font-medium">⚠️ Conflict: Paratha + Curd + Iced Coffee</button>
-          <button onclick="document.getElementById('fluidFoodInput').value='Palak Dal Tadka, Steamed Rice & Masala Chai'" class="px-2.5 py-1 rounded-full text-[10px] bg-white border border-black/10 font-medium">🔗 Iron Block: Palak Dal + Chai</button>
+          <button onclick="document.getElementById('fluidFoodInput').value='2 Pegs Vodka Cocktail with Cranberry Mixer'" class="px-2.5 py-1 rounded-lg text-[10px] bg-rose-500/15 border border-rose-500/40 text-rose-300 font-semibold">🍸 Test Alcohol: Vodka Cocktail (0g Pro)</button>
+          <button onclick="document.getElementById('fluidFoodInput').value='150g Grilled Paneer Tikka, 2 Whole Wheat Roti & Mint Chutney'" class="px-2.5 py-1 rounded-lg text-[10px] bento-sub text-slate-300 font-medium">🏋️ Paneer Tikka + 2 Roti</button>
+          <button onclick="document.getElementById('fluidFoodInput').value='2 Paneer Parathas with Curd, Pickle & Iced Coffee'" class="px-2.5 py-1 rounded-lg text-[10px] bento-sub text-slate-300 font-medium">⚠️ Conflict: Paratha + Curd + Iced Coffee</button>
+          <button onclick="document.getElementById('fluidFoodInput').value='Palak Dal Tadka, Steamed Rice & Masala Chai'" class="px-2.5 py-1 rounded-lg text-[10px] bento-sub text-slate-300 font-medium">🔗 Iron Block: Palak Dal + Chai</button>
         </div>
 
-        <textarea id="fluidFoodInput" rows="2" class="w-full rounded-2xl bg-white p-3 text-xs border border-black/15 focus:outline-none" placeholder="Type any meal or drink, snap a photo, or tap '🎙️ Speak Meal'..."></textarea>
+        <textarea id="fluidFoodInput" rows="2" class="w-full rounded-2xl bg-[#090A0F] p-3 text-xs text-white border border-white/15 focus:outline-none focus:border-cyan-400" placeholder="Type any meal or drink, snap a photo, or tap '🎙️ Speak'..."></textarea>
 
-        <button id="analyzeMealBtn" onclick="analyzeMealWithAI()" class="w-full py-3.5 rounded-full bg-[#1C1B19] text-[#F4F1EA] text-xs font-semibold shadow-lg">
-          🔬 Compute Exact Macros, Organ Telemetry & Glucose Curve
+        <button id="analyzeMealBtn" onclick="analyzeMealWithAI()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 text-xs font-extrabold uppercase tracking-wide shadow-lg glow-emerald">
+          🔬 Compute Exact Macros, Organ HUD & Glucose Curve
         </button>
       </div>
     </div>
@@ -555,8 +606,8 @@
         const btn = document.getElementById(`navBtn-${t}`);
         if (btn) {
           btn.className = t === tab
-            ? "py-1 rounded-xl bg-[#1C1B19] text-[#F4F1EA] flex flex-col items-center justify-center text-[10px] font-bold transition-all shadow"
-            : "py-1 rounded-xl text-[#78736A] flex flex-col items-center justify-center text-[10px] font-semibold transition-all";
+            ? "py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 flex flex-col items-center justify-center text-[10px] font-extrabold transition-all shadow"
+            : "py-1.5 rounded-xl text-slate-400 flex flex-col items-center justify-center text-[10px] font-semibold transition-all";
         }
       });
       if (tab === 'geomenu' && state.nearbyRecommendations.length === 0) {
@@ -618,7 +669,6 @@
       const text = (rawInput || "Logged Meal").trim();
       const lower = text.toLowerCase();
 
-      // Detect pure alcohol / spirits / cocktails first so they NEVER get fake food protein
       const isSpiritOrCocktail = /\b(vodka|whiskey|whisky|rum|gin|tequila|brandy|scotch|cocktail|martini|mojito|margarita|peg|alcohol|liquor)\b/.test(lower);
       const isWineOrBeer = /\b(beer|wine|champagne|pint|ale|lager)\b/.test(lower);
       const hasFoodWithDrink = /\b(paneer|chicken|roti|rice|dal|idli|dosa|salad|tikka|egg|fish|pizza|burger|paratha|tacos|nachos|peanuts)\b/.test(lower);
@@ -628,21 +678,13 @@
       let ingredients = [];
 
       if ((isSpiritOrCocktail || isWineOrBeer) && !hasFoodWithDrink) {
-        // Pure Alcohol / Cocktail Biochemical Profile (Zero Protein, Zero Fiber, Zero Fat)
-        ethanolGrams = isSpiritOrCocktail ? 28 : 18; // ~2 standard drinks (28g ethanol = 196 kcal)
+        ethanolGrams = isSpiritOrCocktail ? 28 : 18;
         const mixerCarbs = /cranberry|coke|cola|tonic|juice|syrup|mojito|margarita|cocktail|sweet/.test(lower) ? 22 : (isWineOrBeer ? 14 : 0);
         cal = (ethanolGrams * 7) + (mixerCarbs * 4);
-        pro = isWineOrBeer ? 1 : 0; // Spirits/cocktails have strictly 0g protein
+        pro = isWineOrBeer ? 1 : 0;
         carb = mixerCarbs;
-        fib = 0;
-        fat = 0;
-        fe = isWineOrBeer ? 0.3 : 0.0;
-        mg = isWineOrBeer ? 24 : 4;
-        zn = 0.0;
-        na = 35;
-        ca = 10;
-        b12 = 0.0;
-        ingredients = [`Ethanol (${ethanolGrams}g • 7 kcal/g)`, mixerCarbs > 0 ? `Simple Sugar Mixer (${mixerCarbs}g Carbs)` : "Distilled Spirit (0g Protein / 0g Fat)"];
+        fib = 0; fat = 0; fe = isWineOrBeer ? 0.3 : 0.0; mg = isWineOrBeer ? 24 : 4; zn = 0.0; na = 35; ca = 10; b12 = 0.0;
+        ingredients = [`Ethanol (${ethanolGrams}g • 7 kcal/g)`, mixerCarbs > 0 ? `Sugar Mixer (${mixerCarbs}g Carbs)` : "Distilled Spirit (0g Protein / 0g Fat)"];
 
         return {
           id: "meal_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
@@ -658,13 +700,12 @@
           glucoseSpikeMgDl: mixerCarbs > 0 ? 44 : 18,
           hasDairy: false, hasHeavyCarbFat: false, isAlcohol: true,
           ingredients,
-          explanation: `⚠️ Hepatic Ethanol Load (${ethanolGrams}g alcohol): Pure spirits/cocktails contain 0g protein and 0g fiber. Ethanol prioritizes liver ADH/ALDH detox pathways, pauses lipid oxidation for ~6 hours, and suppresses vasopressin—causing rebound under-eye edema and cheek vasodilation.`,
-          bioFixLabel: "Drink 400ml Electrolyte/Coconut Water + 500mg Vit C (+24% Hepatic Clearance)",
+          explanation: `⚠️ Hepatic Ethanol Load (${ethanolGrams}g alcohol): Pure spirits/cocktails contain 0g protein and 0g fiber. Ethanol prioritizes liver ADH/ALDH detox pathways, pauses lipid oxidation, and triggers rebound under-eye edema.`,
+          bioFixLabel: "Drink 400ml Electrolyte Water + 500mg Vit C (+24% Hepatic Clearance)",
           bioFixApplied: false
         };
       }
 
-      // Token-based additive IFCT/USDA Food Parser (Only adds macros for actual ingredients present)
       const hasPaneerOrCheese = /\b(paneer|cottage cheese|cheese|halloumi)\b/.test(lower);
       const hasPoultryOrMeat = /\b(chicken|mutton|fish|salmon|prawn|egg|eggs|omelette|turkey)\b/.test(lower);
       const hasSoyOrTofu = /\b(tofu|soya|edamame|tempeh|whey|protein)\b/.test(lower);
@@ -681,18 +722,17 @@
       if (hasPaneerOrCheese) { cal += 265; pro += 19; carb += 5; fib += 0; fat += 20; fe += 0.8; mg += 38; zn += 2.3; na += 320; ca += 420; b12 += 1.1; ingredients.push("Paneer / Dairy Casein (19g Pro)"); }
       if (hasPoultryOrMeat) { cal += 240; pro += 29; carb += 1; fib += 0; fat += 12; fe += 2.2; mg += 42; zn += 2.9; na += 290; ca += 35; b12 += 2.2; ingredients.push("Complete Animal Protein (29g Pro)"); }
       if (hasSoyOrTofu) { cal += 190; pro += 22; carb += 8; fib += 3.5; fat += 8; fe += 3.4; mg += 65; zn += 2.0; na += 210; ca += 280; ingredients.push("Plant Soy/Whey Isolate (22g Pro)"); }
-      if (hasLentilOrBean) { cal += 165; pro += 11; carb += 26; fib += 6.8; fat += 2.5; fe += 3.2; mg += 62; zn += 1.6; na += 260; ca += 55; ingredients.push("Lentil/Legume Protein & Prebiotic Fiber"); }
-      if (hasFermentedSouth) { cal += 190; pro += 7; carb += 38; fib += 4.2; fat += 2.0; fe += 2.4; mg += 48; zn += 1.1; na += 240; ca += 45; b12 += 0.4; ingredients.push("Fermented Rice-Urad Probiotic Batter"); }
+      if (hasLentilOrBean) { cal += 165; pro += 11; carb += 26; fib += 6.8; fat += 2.5; fe += 3.2; mg += 62; zn += 1.6; na += 260; ca += 55; ingredients.push("Lentil/Legume Protein & Fiber"); }
+      if (hasFermentedSouth) { cal += 190; pro += 7; carb += 38; fib += 4.2; fat += 2.0; fe += 2.4; mg += 48; zn += 1.1; na += 240; ca += 45; b12 += 0.4; ingredients.push("Fermented Probiotic Batter"); }
       if (hasWholeGrain) { cal += 175; pro += 5.5; carb += 34; fib += 4.8; fat += 2.5; fe += 2.1; mg += 52; zn += 1.2; na += 180; ca += 30; ingredients.push("Whole Grain Complex Carbs"); }
-      if (hasGreensOrVeg) { cal += 65; pro += 3.0; carb += 9; fib += 4.2; fat += 2.0; fe += 2.9; mg += 58; zn += 0.8; na += 120; ca += 95; ingredients.push("Phytonutrient Greens & Polyphenols"); }
-      if (hasDairyLiquid) { cal += 95; pro += 5.0; carb += 7; fib += 0; fat += 5.5; fe += 0.1; mg += 22; zn += 0.7; na += 95; ca += 180; b12 += 0.6; ingredients.push("Cultured Dairy / Milk Lipids"); }
-      if (hasFastFood) { cal += 420; pro += 11; carb += 54; fib += 2.2; fat += 21; fe += 1.8; mg += 28; zn += 1.4; na += 980; ca += 140; ingredients.push("Refined Flour & Saturated Frying Lipids"); }
-      if (hasCaffeine) { cal += (hasDairyLiquid || hasIced ? 45 : 5); carb += (hasIced ? 11 : 0); mg += 12; na += 15; ingredients.push("Caffeine & Tannin Polyphenols"); }
+      if (hasGreensOrVeg) { cal += 65; pro += 3.0; carb += 9; fib += 4.2; fat += 2.0; fe += 2.9; mg += 58; zn += 0.8; na += 120; ca += 95; ingredients.push("Phytonutrient Greens & Spices"); }
+      if (hasDairyLiquid) { cal += 95; pro += 5.0; carb += 7; fib += 0; fat += 5.5; fe += 0.1; mg += 22; zn += 0.7; na += 95; ca += 180; b12 += 0.6; ingredients.push("Cultured Dairy / Lipids"); }
+      if (hasFastFood) { cal += 420; pro += 11; carb += 54; fib += 2.2; fat += 21; fe += 1.8; mg += 28; zn += 1.4; na += 980; ca += 140; ingredients.push("Refined Flour & Saturated Lipids"); }
+      if (hasCaffeine) { cal += (hasDairyLiquid || hasIced ? 45 : 5); carb += (hasIced ? 11 : 0); mg += 12; na += 15; ingredients.push("Caffeine & Tannin Chelators"); }
 
-      // If user typed an unrecognized food item without matching tokens, give a modest realistic baseline
       if (cal === 0) {
         cal = 250; pro = 8; carb = 34; fib = 4.5; fat = 8; fe = 2.2; mg = 50; zn = 1.4; na = 310; ca = 80; b12 = 0.2;
-        ingredients.push("Mixed Whole Food Plate");
+        ingredients.push("Whole Food Plate");
       }
 
       let synergyScore = 95, stomachPh = 2.0;
@@ -742,13 +782,11 @@
     async function analyzeMealWithAI() {
       const btn = document.getElementById('analyzeMealBtn');
       const foodText = document.getElementById('fluidFoodInput').value.trim() || "Snapped Meal Plate";
-      btn.innerText = "⏳ Running Gemini 2.5 Flash + IFCT Biochemical Parser...";
+      btn.innerText = "⏳ Running Gemini 2.5 Flash + IFCT Parser...";
       btn.disabled = true;
 
-      // Baseline deterministic calculation
       let newMeal = buildMealTelemetry(foodText);
 
-      // Live Gemini 2.5 Flash Multimodal API Call if Key is Configured
       const apiKey = localStorage.getItem('aura_gemini_key');
       if (apiKey) {
         try {
@@ -761,32 +799,16 @@
 Analyze this food/drink input ("${foodText}") and/or attached photo for a user in ${state.bioMode} mode.
 CRITICAL SCIENTIFIC GUARDRAIL:
 - If the item is a distilled spirit, cocktail, vodka, whiskey, rum, gin, or sugary drink without solid protein food, protein MUST be 0g, fiber MUST be 0g, fat MUST be 0g, and ethanolGrams must reflect the alcohol content (~14g per peg/shot).
-- Never invent protein for beverages that do not contain dairy, soy, egg, or protein powder.
 Return ONLY valid JSON matching this schema:
 {
   "dishName": "Exact Dish or Drink Name & Portion",
-  "calories": number,
-  "protein": number,
-  "carbs": number,
-  "fiber": number,
-  "fat": number,
-  "ethanolGrams": number,
-  "iron": number,
-  "magnesium": number,
-  "zinc": number,
-  "sodium": number,
-  "calcium": number,
-  "b12": number,
-  "synergyScore": number,
-  "stomachPh": number,
-  "gastricHours": number,
-  "ironAbsorptionPct": number,
-  "colonGasMl": number,
-  "glucoseSpikeMgDl": number,
+  "calories": number, "protein": number, "carbs": number, "fiber": number, "fat": number, "ethanolGrams": number,
+  "iron": number, "magnesium": number, "zinc": number, "sodium": number, "calcium": number, "b12": number,
+  "synergyScore": number, "stomachPh": number, "gastricHours": number, "ironAbsorptionPct": number, "colonGasMl": number, "glucoseSpikeMgDl": number,
   "isAlcohol": boolean,
   "explanation": "2 clinical sentences explaining gastric, duodenal, hepatic, and dermis impact.",
   "bioFixLabel": "Specific actionable kitchen herb/electrolyte antidote",
-  "ingredients": ["Ingredient 1 with weight", "Ingredient 2"]
+  "ingredients": ["Ingredient 1", "Ingredient 2"]
 }`
           });
 
@@ -802,7 +824,6 @@ Return ONLY valid JSON matching this schema:
           const rawJson = data?.candidates?.[0]?.content?.parts?.[0]?.text;
           if (rawJson) {
             const aiParsed = JSON.parse(rawJson.replace(/```json|```/g, '').trim());
-            // Hard deterministic guardrail: if input is pure alcohol, force protein = 0
             if (newMeal.isAlcohol) {
               aiParsed.protein = 0; aiParsed.fiber = 0; aiParsed.fat = 0; aiParsed.isAlcohol = true;
             }
@@ -813,17 +834,16 @@ Return ONLY valid JSON matching this schema:
         }
       }
 
-      const logs = JSON.parse(localStorage.getItem('aura_vx_logs') || '[]');
+      const logs = JSON.parse(localStorage.getItem('aura_vx11_logs') || '[]');
       logs.unshift(newMeal);
-      localStorage.setItem('aura_vx_logs', JSON.stringify(logs.slice(0, 25)));
+      localStorage.setItem('aura_vx11_logs', JSON.stringify(logs.slice(0, 25)));
 
       currentPhotoBase64 = null;
       document.getElementById('foodPhotoPreviewContainer').classList.add('hidden');
       document.getElementById('fluidFoodInput').value = '';
-      btn.innerText = "🔬 Compute Exact Macros, Organ Telemetry & Glucose Curve";
+      btn.innerText = "🔬 Compute Exact Macros, Organ HUD & Glucose Curve";
       btn.disabled = false;
 
-      // Isolate the newly logged meal immediately so user sees its exact nutrients
       state.selectedMealId = newMeal.id;
       closeSheets();
       switchMainTab('nutrients');
@@ -837,11 +857,10 @@ Return ONLY valid JSON matching this schema:
       const btn = document.getElementById('scanNearbyBtn');
       const locLabel = document.getElementById('userLocationLabel');
       const listContainer = document.getElementById('nearbyMenusList');
-      btn.innerText = "⏳ GPS Locking...";
+      btn.innerText = "⏳ GPS LOCK...";
       btn.disabled = true;
-      listContainer.innerHTML = `<div class="p-4 rounded-2xl bg-white/80 text-center text-xs text-[#78736A]">📡 Acquiring smartphone GPS coordinates & querying OpenStreetMap Overpass API within 1.5 km...</div>`;
+      listContainer.innerHTML = `<div class="p-4 rounded-xl bento-sub text-center font-mono-tech text-[11px] text-cyan-400">📡 Acquiring GPS & querying OpenStreetMap Overpass API within 1.5 km...</div>`;
 
-      // 1. Get exact GPS coordinates
       try {
         const pos = await new Promise((resolve, reject) => {
           if (!navigator.geolocation) return reject("No Geo");
@@ -850,12 +869,10 @@ Return ONLY valid JSON matching this schema:
         state.userLat = pos.coords.latitude;
         state.userLng = pos.coords.longitude;
       } catch (e) {
-        // Fallback coordinates if GPS permission denied on desktop
         state.userLat = 28.6315;
         state.userLng = 77.2167;
       }
 
-      // 2. Reverse Geocode neighborhood name via Nominatim
       try {
         const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${state.userLat}&lon=${state.userLng}&zoom=16`);
         const geoData = await geoRes.json();
@@ -866,7 +883,6 @@ Return ONLY valid JSON matching this schema:
       }
       locLabel.innerText = `📍 Locked within 1.5 km of: ${state.locationName}`;
 
-      // 3. Query real nearby restaurants/cafes + their exact distance & cuisine tags via Overpass API
       let realVenues = [];
       try {
         const query = `[out:json][timeout:7];(node["amenity"~"restaurant|cafe"](around:1800,${state.userLat},${state.userLng});way["amenity"~"restaurant|cafe"](around:1800,${state.userLat},${state.userLng}););out center 20;`;
@@ -887,7 +903,6 @@ Return ONLY valid JSON matching this schema:
           .sort((a, b) => Number(a.distKm) - Number(b.distKm));
       } catch (e) {}
 
-      // Deduplicate by venue name
       const seen = new Set();
       realVenues = realVenues.filter(v => {
         if (seen.has(v.name)) return false;
@@ -895,7 +910,6 @@ Return ONLY valid JSON matching this schema:
         return true;
       }).slice(0, 10);
 
-      // Calculate user's exact remaining nutrient deficit
       const ctx = getActiveDataContext();
       const d = ctx.meal;
       const p = ctx.modeProfile;
@@ -904,12 +918,11 @@ Return ONLY valid JSON matching this schema:
       const sodCap = Math.max(300, p.sodTarget - d.sodium);
 
       document.getElementById('menuDeficitCriteriaBanner').innerHTML =
-        `🎯 <strong>Live Bio-Filter (${state.bioMode}):</strong> Needs <strong>+${Math.min(40, proGap)}g Protein</strong> & <strong>+${Math.min(6, feGap)}mg Iron</strong> • Sodium <strong>&lt;${Math.min(600, sodCap)}mg</strong>.`;
+        `🎯 <strong class="text-cyan-400">Live Bio-Filter (${state.bioMode}):</strong> Needs <strong class="text-white">+${Math.min(40, proGap)}g Protein</strong> & <strong class="text-white">+${Math.min(6, feGap)}mg Iron</strong> • Sodium <strong class="text-emerald-400">&lt;${Math.min(600, sodCap)}mg</strong>.`;
 
       let recommendations = null;
       const apiKey = localStorage.getItem('aura_gemini_key');
 
-      // 4. If Gemini API Key is present, ground dishes strictly to each venue's real culinary type
       if (apiKey && realVenues.length > 0) {
         try {
           const venueListStr = realVenues.map(v => `${v.name} (Cuisine/Type: ${v.cuisine}, Distance: ${v.distKm} km)`).join("; ");
@@ -918,7 +931,7 @@ Here are the actual nearby restaurants/cafes around the user's GPS (${state.loca
 ${venueListStr}
 
 User's Remaining Nutrient Deficit: Needs +${proGap}g Protein, +${feGap}mg Iron, and low Sodium (<${Math.min(600, sodCap)}mg).
-CRITICAL RULE: For each restaurant below, recommend ONLY an authentic dish that 100% exists on that specific restaurant or chain's real menu (e.g., if it's a coffee shop like Starbucks/Blue Tokai, suggest a real high-protein sandwich/wrap/eggs + unsweetened coffee; if South Indian, suggest Idli/Dosa/Pesarattu; if North Indian, suggest Tandoori Paneer/Chicken Tikka + Roti). NEVER invent fake dishes that a venue doesn't serve.
+CRITICAL RULE: For each restaurant below, recommend ONLY an authentic dish that 100% exists on that specific restaurant or chain's real menu. NEVER invent fake dishes that a venue doesn't serve.
 Return ONLY a JSON array of up to 10 objects ranked by matchScore:
 [
   {
@@ -927,13 +940,7 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
     "venueName": "Exact Venue Name from List",
     "distanceKm": "0.45 km",
     "matchScore": 97,
-    "calories": 410,
-    "protein": 28,
-    "carbs": 36,
-    "fiber": 7,
-    "fat": 14,
-    "iron": 4.2,
-    "sodium": 380,
+    "calories": 410, "protein": 28, "carbs": 36, "fiber": 7, "fat": 14, "iron": 4.2, "sodium": 380,
     "whyItMatches": "1 specific sentence explaining how this authentic menu item fills their ${proGap}g protein / ${feGap}mg iron gap."
   }
 ]`;
@@ -953,14 +960,13 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
         }
       }
 
-      // 5. Cuisine-Aware Authentic Menu Matcher (Matches each real GPS venue's name/cuisine tag to authentic items it actually serves)
       if (!recommendations || !Array.isArray(recommendations) || recommendations.length === 0) {
         recommendations = matchRealVenuesToAuthenticDishes(realVenues, proGap, feGap);
       }
 
       state.nearbyRecommendations = recommendations;
       state.showAllNearbyMenus = false;
-      btn.innerText = "🔄 Rescan GPS";
+      btn.innerText = "🔄 RESCAN";
       btn.disabled = false;
       renderNearbyMenusList();
     }
@@ -1056,29 +1062,28 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
         const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.venueName + " " + state.userLat + "," + state.userLng)}`;
         const safeDish = (item.dishName + " (" + item.venueName + ")").replace(/'/g, "");
         return `
-          <div class="bg-white/95 p-3 rounded-2xl border border-black/10 space-y-1.5 shadow-sm">
+          <div class="bento-sub p-3 rounded-2xl space-y-1.5 hover:border-cyan-500/40 transition-all">
             <div class="flex justify-between items-start gap-2">
               <div>
                 <div class="flex items-center gap-1.5 flex-wrap">
-                  <span class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-[#1C1B19] text-[#F4F1EA]">#${item.rank} • ${item.matchScore}% Match</span>
-                  <span class="text-[10px] font-bold text-[#4E6E58]">📍 ${item.venueName} (${item.distanceKm})</span>
+                  <span class="font-mono-tech text-[9px] font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">#${item.rank} • ${item.matchScore}% MATCH</span>
+                  <span class="text-[10px] font-bold text-cyan-400">📍 ${item.venueName} (${item.distanceKm})</span>
                 </div>
-                <h4 class="font-bold text-xs text-[#1C1B19] mt-1 leading-snug">${item.dishName}</h4>
+                <h4 class="font-bold text-xs text-white mt-1 leading-snug">${item.dishName}</h4>
               </div>
-              <span class="text-[10px] font-bold text-[#1C1B19] shrink-0 bg-black/5 px-2 py-0.5 rounded-full">${item.calories} kcal</span>
+              <span class="font-mono-tech text-[10px] font-bold text-slate-200 shrink-0 bg-white/10 px-2 py-0.5 rounded-md">${item.calories} kcal</span>
             </div>
-            <p class="text-[10px] text-[#5A564F] leading-relaxed">${item.whyItMatches}</p>
-            <div class="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-black/5 text-[10px]">
-              <div class="flex gap-2 text-[#78736A]">
-                <span>P: <strong class="text-[#1C1B19]">${item.protein}g</strong></span>
-                <span>C: <strong class="text-[#1C1B19]">${item.carbs}g</strong></span>
-                <span>Fib: <strong class="text-[#4E6E58]">${item.fiber}g</strong></span>
-                <span>Fe: <strong class="text-[#1C1B19]">${item.iron}mg</strong></span>
-                <span>Na: <strong class="text-[#1C1B19]">${item.sodium}mg</strong></span>
+            <p class="text-[10px] text-slate-400 leading-relaxed">${item.whyItMatches}</p>
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t border-white/5 text-[10px]">
+              <div class="flex gap-2 font-mono-tech text-slate-400">
+                <span>P:<strong class="text-white">${item.protein}g</strong></span>
+                <span>C:<strong class="text-white">${item.carbs}g</strong></span>
+                <span>Fib:<strong class="text-emerald-400">${item.fiber}g</strong></span>
+                <span>Fe:<strong class="text-cyan-400">${item.iron}mg</strong></span>
               </div>
               <div class="flex gap-1.5">
-                <a href="${mapsUrl}" target="_blank" class="px-2.5 py-1 rounded-full bg-black/5 text-[#1C1B19] font-semibold">🗺️ Maps</a>
-                <button onclick="logRecommendedMenuDish('${safeDish}', ${item.calories}, ${item.protein}, ${item.carbs}, ${item.fiber}, ${item.fat}, ${item.iron}, ${item.sodium}, ${item.matchScore})" class="px-2.5 py-1 rounded-full bg-[#4E6E58] text-white font-semibold shadow-sm active:scale-95">
+                <a href="${mapsUrl}" target="_blank" class="px-2.5 py-1 rounded-lg bg-white/10 text-slate-200 font-semibold">🗺️ Maps</a>
+                <button onclick="logRecommendedMenuDish('${safeDish}', ${item.calories}, ${item.protein}, ${item.carbs}, ${item.fiber}, ${item.fat}, ${item.iron}, ${item.sodium}, ${item.matchScore})" class="px-2.5 py-1 rounded-lg bg-emerald-500 text-slate-950 font-extrabold active:scale-95">
                   + Eat & Log
                 </button>
               </div>
@@ -1104,9 +1109,9 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       const meal = buildMealTelemetry(title);
       meal.calories = cal; meal.protein = pro; meal.carbs = carb; meal.fiber = fib; meal.fat = fat;
       meal.iron = fe; meal.sodium = na; meal.synergyScore = score;
-      const logs = JSON.parse(localStorage.getItem('aura_vx_logs') || '[]');
+      const logs = JSON.parse(localStorage.getItem('aura_vx11_logs') || '[]');
       logs.unshift(meal);
-      localStorage.setItem('aura_vx_logs', JSON.stringify(logs.slice(0, 25)));
+      localStorage.setItem('aura_vx11_logs', JSON.stringify(logs.slice(0, 25)));
       state.selectedMealId = meal.id;
       switchMainTab('nutrients');
       renderMasterDashboard();
@@ -1120,8 +1125,8 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       const badge = document.getElementById('micStatusBadge');
       const canvas = document.getElementById('audioWaveformCanvas');
       const ctx = canvas.getContext('2d');
-      badge.innerText = scanType === 'gut' ? "🔴 Recording Abdomen (100-450Hz)..." : "🔴 Recording Vagal Voice...";
-      badge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#9E4747] text-white animate-pulse";
+      badge.innerText = scanType === 'gut' ? "🔴 REC ABDOMEN..." : "🔴 REC VAGAL...";
+      badge.className = "font-mono-tech text-[9px] font-bold px-2 py-0.5 rounded bg-rose-500 text-white animate-pulse";
 
       try {
         micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
@@ -1137,14 +1142,14 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
         function drawWave() {
           micAnimFrame = requestAnimationFrame(drawWave);
           analyser.getByteFrequencyData(dataArray);
-          ctx.fillStyle = '#1C1B19';
+          ctx.fillStyle = '#050608';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           const barW = (canvas.width / bufferLength) * 2.2;
           let x = 0, frameE = 0;
           for (let i = 0; i < bufferLength; i++) {
             const barH = (dataArray[i] / 255) * canvas.height;
             frameE += dataArray[i];
-            ctx.fillStyle = scanType === 'gut' ? '#A3C9A8' : '#E6C8C5';
+            ctx.fillStyle = scanType === 'gut' ? '#06B6D4' : '#10B981';
             ctx.fillRect(x, canvas.height - barH, barW, barH);
             x += barW + 1;
           }
@@ -1161,11 +1166,11 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       } catch (err) {
         let simFrames = 0;
         const simTimer = setInterval(() => {
-          ctx.fillStyle = '#1C1B19';
+          ctx.fillStyle = '#050608';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           for (let i = 0; i < 45; i++) {
             const h = Math.random() * 42 + 6;
-            ctx.fillStyle = scanType === 'gut' ? '#A3C9A8' : '#E6C8C5';
+            ctx.fillStyle = scanType === 'gut' ? '#06B6D4' : '#10B981';
             ctx.fillRect(i * 7, canvas.height - h, 5, h);
           }
           simFrames++;
@@ -1187,13 +1192,13 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
     function finalizeMicTelemetry(scanType, signalLevel) {
       const badge = document.getElementById('micStatusBadge');
       const resultEl = document.getElementById('micScanResultText');
-      badge.innerText = "✓ FFT Scan Complete";
-      badge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#4E6E58] text-white";
+      badge.innerText = "✓ FFT LOCKED";
+      badge.className = "font-mono-tech text-[9px] font-bold px-2 py-0.5 rounded bg-emerald-500 text-slate-950";
       if (scanType === 'gut') {
         const clicks = Math.min(34, Math.max(6, Math.round(signalLevel * 0.65)));
         state.gutSonicClicks = clicks;
         localStorage.setItem('aura_gutsonic', clicks);
-        resultEl.innerText = `🔊 Detected ${clicks} Borborygmi clicks/min. Colon SVG & Geo-Menu Filter updated!`;
+        resultEl.innerText = `🔊 Detected ${clicks} Borborygmi clicks/min. Colon HUD & Geo-Menu Filter updated!`;
       } else {
         const vagal = Math.min(96, Math.max(58, Math.round(72 + (signalLevel % 22))));
         state.vagalScore = vagal;
@@ -1232,7 +1237,7 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
     function applyTongueTelemetry(amaPct) {
       state.tongueAmaPct = amaPct;
       localStorage.setItem('aura_tongueama', amaPct);
-      document.getElementById('tongueScoreBadge').innerText = `Ama Index: ${amaPct}%`;
+      document.getElementById('tongueScoreBadge').innerText = `AMA: ${amaPct}%`;
       document.getElementById('tongueScanResultText').innerText = amaPct > 28
         ? `👅 RGB Chromatic Scan: ${amaPct}% white/yellow biofilm detected (Sama endotoxin buildup). Forehead & Stomach updated.`
         : `👅 RGB Chromatic Scan: ${amaPct}% coating (Clean Nirama pink mucosa). Optimal enzyme readiness.`;
@@ -1251,10 +1256,10 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       btn.innerText = "🔴 Listening...";
       rec.onresult = function(e) {
         document.getElementById('fluidFoodInput').value = e.results[0][0].transcript;
-        btn.innerText = "🎙️ Speak Meal";
+        btn.innerText = "🎙️ Speak";
       };
-      rec.onerror = function() { btn.innerText = "🎙️ Speak Meal"; };
-      rec.onend = function() { btn.innerText = "🎙️ Speak Meal"; };
+      rec.onerror = function() { btn.innerText = "🎙️ Speak"; };
+      rec.onend = function() { btn.innerText = "🎙️ Speak"; };
       rec.start();
     }
 
@@ -1281,10 +1286,10 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
     }
 
     // =========================================================================
-    // 7. MASTER DASHBOARD & BIO-TWIN SVG RENDERING ENGINE
+    // 7. MASTER DASHBOARD & BIO-TWIN SVG RENDERING ENGINE (DARK HUD PALETTE)
     // =========================================================================
     function ensureInitialDemoData() {
-      const existing = JSON.parse(localStorage.getItem('aura_vx_logs') || '[]');
+      const existing = JSON.parse(localStorage.getItem('aura_vx11_logs') || '[]');
       if (existing.length === 0) loadDemoMeals(false);
     }
 
@@ -1292,13 +1297,13 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       const m1 = buildMealTelemetry("2 Steamed Idli, Toor Dal Sambar & Coconut Chutney", "09:00 AM");
       const m2 = buildMealTelemetry("150g Grilled Paneer Tikka, 2 Whole Wheat Roti & Mint Chutney", "01:30 PM");
       const m3 = buildMealTelemetry("2 Pegs Vodka Cocktail with Cranberry Mixer", "08:30 PM");
-      localStorage.setItem('aura_vx_logs', JSON.stringify([m3, m2, m1]));
+      localStorage.setItem('aura_vx11_logs', JSON.stringify([m3, m2, m1]));
       state.selectedMealId = null;
       if (renderNow) renderMasterDashboard();
     }
 
     function getActiveDataContext() {
-      const logs = JSON.parse(localStorage.getItem('aura_vx_logs') || '[]');
+      const logs = JSON.parse(localStorage.getItem('aura_vx11_logs') || '[]');
       const modeProfile = BIO_MODES[state.bioMode] || BIO_MODES.Peak;
 
       if (state.selectedMealId) {
@@ -1314,7 +1319,7 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
         stomachPh: 2.1, gastricHours: 0, ironAbsorptionPct: 88, colonGasMl: 14,
         glucoseSpikeMgDl: 20, hasDairy: false, hasHeavyCarbFat: false, isAlcohol: false,
         ingredients: [],
-        explanation: logs.length ? "" : "No meals logged today. Tap '+ Log' in the header.",
+        explanation: logs.length ? "" : "No meals logged today. Tap '+ LOG' in the header.",
         bioFixLabel: "Sip 200ml Warm Coriander-Cumin Water (+12% Gut Motility)",
         bioFixApplied: false
       };
@@ -1358,34 +1363,32 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
 
       document.getElementById('waterCountVal').innerText = state.waterLiters.toFixed(2);
       document.getElementById('bioModeLeftText').innerText = p.leftBanner;
-      document.getElementById('bioModeRightText').innerText = `MMC Clear: ~${d.gastricHours || 2.0}h`;
+      document.getElementById('bioModeRightText').innerText = `MMC: ~${d.gastricHours || 2.0}h`;
 
-      document.getElementById('badgeGutSonic').innerText = `${state.gutSonicClicks} clicks/m`;
-      document.getElementById('badgeTongueAma').innerText = `${state.tongueAmaPct}% (${state.tongueAmaPct > 28 ? 'Sama' : 'Clean'})`;
+      document.getElementById('badgeGutSonic').innerText = `${state.gutSonicClicks} clk/m`;
+      document.getElementById('badgeTongueAma').innerText = `${state.tongueAmaPct}% ${state.tongueAmaPct > 28 ? 'Sama' : 'Clean'}`;
       document.getElementById('badgeVagalTone').innerText = `${state.vagalScore}/100`;
 
-      // Update Persistent Inspection Mode Banner
       const banner = document.getElementById('inspectionBanner');
       const exitBtn = document.getElementById('exitInspectionBtn');
       if (ctx.viewMode === 'single') {
-        document.getElementById('inspectionModeLabel').innerText = `🔍 Isolated Meal Inspector (${d.time})`;
+        document.getElementById('inspectionModeLabel').innerText = `🔍 ISOLATED MEAL TELEMETRY (${d.time})`;
         document.getElementById('inspectionMealName').innerText = d.dishName;
-        banner.className = "silk-pill rounded-xl px-3 py-1.5 flex justify-between items-center border-l-4 border-[#9E4747] bg-[#FFFDF9]";
+        banner.className = "bento-card rounded-xl px-3 py-1.5 flex justify-between items-center border-l-4 border-l-rose-500";
         exitBtn.classList.remove('hidden');
         document.getElementById('nutritionCardTitle').innerText = "Isolated Meal Nutrients";
-        document.getElementById('nutritionCardSubtitle').innerText = `Exact Biochemical Profile for ${d.dishName}`;
-        document.getElementById('recipeBoxHeader').innerText = `Molecular Analysis • ${d.dishName}`;
+        document.getElementById('nutritionCardSubtitle').innerText = `EXACT PROFILE FOR ${d.time} ENTRY`;
+        document.getElementById('recipeBoxHeader').innerText = `MOLECULAR ANALYSIS • ${d.dishName.toUpperCase()}`;
       } else {
-        document.getElementById('inspectionModeLabel').innerText = `📊 Full-Day Cumulative View (${ctx.logs.length} Items)`;
-        document.getElementById('inspectionMealName').innerText = "Combined Daily Intake & Organ Telemetry";
-        banner.className = "silk-pill rounded-xl px-3 py-1.5 flex justify-between items-center border-l-4 border-[#4E6E58]";
+        document.getElementById('inspectionModeLabel').innerText = `📊 FULL-DAY CUMULATIVE TELEMETRY (${ctx.logs.length} ITEMS)`;
+        document.getElementById('inspectionMealName').innerText = "Combined Daily Intake & Organ Load";
+        banner.className = "bento-card rounded-xl px-3 py-1.5 flex justify-between items-center border-l-4 border-l-emerald-400";
         exitBtn.classList.add('hidden');
         document.getElementById('nutritionCardTitle').innerText = "Full-Day Cumulative Nutrients";
-        document.getElementById('nutritionCardSubtitle').innerText = `Daily Targets Calibrated for ${state.bioMode} Mode`;
-        document.getElementById('recipeBoxHeader').innerText = "Combined Daily Synergy & Ingredients";
+        document.getElementById('nutritionCardSubtitle').innerText = `CALIBRATED FOR ${state.bioMode.toUpperCase()} MODE`;
+        document.getElementById('recipeBoxHeader').innerText = "ACTIVE MOLECULAR SYNERGY & COMPOUNDS";
       }
 
-      // Update Macro & Micronutrient Numbers
       document.getElementById('totalCaloriesBadge').innerText = `${Math.round(d.calories)} / ${p.calTarget} kcal`;
       document.getElementById('macroProtein').innerText = `${Math.round(d.protein)}g`;
       document.getElementById('targetProtein').innerText = `/ ${p.proTarget}g`;
@@ -1396,7 +1399,6 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       document.getElementById('macroFat').innerText = `${Math.round(d.fat)}g`;
       document.getElementById('targetFat').innerText = `/ ${p.fatTarget}g`;
 
-      // Show Ethanol/Alcohol Warning if present
       const alcBanner = document.getElementById('alcoholAlertBanner');
       if (d.ethanolGrams > 0) {
         alcBanner.classList.remove('hidden');
@@ -1421,7 +1423,7 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       document.getElementById('synergyBadge').innerText = `Synergy: ${d.synergyScore}%`;
       document.getElementById('whisperBody').innerText = d.explanation;
       document.getElementById('ingredientPills').innerHTML = (d.ingredients || []).map(i =>
-        `<span class="text-[10px] bg-white px-2 py-0.5 rounded-full border border-black/10 font-medium">🌿 ${i}</span>`
+        `<span class="font-mono-tech text-[9px] bento-sub text-slate-300 px-2 py-0.5 rounded-md border border-white/10">⚡ ${i}</span>`
       ).join('');
 
       updateDynamicSVGs(ctx);
@@ -1434,53 +1436,60 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       const p = ctx.modeProfile;
 
       const stomachConflict = d.stomachPh > 3.0 || d.synergyScore < 80 || state.tongueAmaPct > 30;
-      document.getElementById('gutStomachShape').setAttribute('fill', stomachConflict ? '#E6A18C' : '#A3C9A8');
+      const stomEl = document.getElementById('gutStomachShape');
+      stomEl.setAttribute('fill', stomachConflict ? '#F43F5E' : '#10B981');
+      stomEl.setAttribute('stroke', stomachConflict ? '#F43F5E' : '#10B981');
       document.getElementById('svgStomachMetric').textContent = `pH ${d.stomachPh} • ${d.gastricHours}h`;
 
       const ironBlocked = d.ironAbsorptionPct < 60;
-      document.getElementById('gutDuodenumShape').setAttribute('fill', ironBlocked ? '#E6A18C' : '#A3C9A8');
-      document.getElementById('svgDuodenumMetric').textContent = `Fe Abs: ${d.ironAbsorptionPct}%`;
+      const duoEl = document.getElementById('gutDuodenumShape');
+      duoEl.setAttribute('fill', ironBlocked ? '#F43F5E' : '#06B6D4');
+      duoEl.setAttribute('stroke', ironBlocked ? '#F43F5E' : '#06B6D4');
+      document.getElementById('svgDuodenumMetric').textContent = `Fe: ${d.ironAbsorptionPct}%`;
 
       const effectiveColonGas = Math.round((d.colonGasMl + (state.gutSonicClicks * 1.2)) / p.motilityFactor);
       const colonStressed = effectiveColonGas > 50 || state.bristol <= 2 || state.buoyancy === 'sink';
-      document.getElementById('gutColonShape').setAttribute('stroke', colonStressed ? '#D99B82' : '#8FA893');
-      document.getElementById('svgColonMetric').textContent = `T${state.bristol} • Gas ${effectiveColonGas}mL`;
+      document.getElementById('gutColonShape').setAttribute('stroke', colonStressed ? '#F59E0B' : '#10B981');
+      document.getElementById('svgColonMetric').textContent = `T${state.bristol} • ${effectiveColonGas}mL`;
 
       let bubblesHtml = '';
       if (colonStressed) {
         bubblesHtml += `
-          <circle class="gas-bubble" cx="46" cy="135" r="5" fill="#9E4747" />
-          <circle class="gas-bubble" cx="48" cy="158" r="4" fill="#9E4747" style="animation-delay:0.5s" />
-          <circle class="gas-bubble" cx="134" cy="145" r="5" fill="#9E4747" style="animation-delay:1s" />
+          <circle class="gas-bubble" cx="46" cy="135" r="5" fill="#F43F5E" />
+          <circle class="gas-bubble" cx="48" cy="158" r="4" fill="#F43F5E" style="animation-delay:0.5s" />
+          <circle class="gas-bubble" cx="134" cy="145" r="5" fill="#F43F5E" style="animation-delay:1s" />
         `;
       }
       if (ironBlocked) {
-        bubblesHtml += `<circle cx="90" cy="126" r="7" fill="#9E4747" /><text x="90" y="129" font-size="6.5" font-weight="bold" fill="#FFF" text-anchor="middle">Fe🔒</text>`;
+        bubblesHtml += `<circle cx="90" cy="126" r="7" fill="#F43F5E" /><text x="90" y="129" font-size="6.5" font-weight="bold" fill="#FFF" text-anchor="middle">Fe🔒</text>`;
       }
       document.getElementById('svgGasBubblesGroup').innerHTML = bubblesHtml;
 
-      // Face Dermis Map (Includes Alcohol Vasopressin Dehydration & Cheek Vasodilation)
       const alcoholEdemaPenalty = d.ethanolGrams > 0 ? 32 : 0;
       const underEyeEdemaPct = Math.min(96, Math.max(8, Math.round(((d.sodium / (state.waterLiters * 1400)) * 55) + alcoholEdemaPenalty)));
-      const eyeColor = underEyeEdemaPct > 45 ? '#E6A18C' : underEyeEdemaPct > 28 ? '#EAD4BE' : '#A3C9A8';
+      const eyeColor = underEyeEdemaPct > 45 ? '#F43F5E' : underEyeEdemaPct > 28 ? '#F59E0B' : '#06B6D4';
       document.getElementById('faceLeftEyeShape').setAttribute('fill', eyeColor);
+      document.getElementById('faceLeftEyeShape').setAttribute('stroke', eyeColor);
       document.getElementById('faceRightEyeShape').setAttribute('fill', eyeColor);
+      document.getElementById('faceRightEyeShape').setAttribute('stroke', eyeColor);
       document.getElementById('svgEyeVal').textContent = `Edema: ${underEyeEdemaPct}%`;
 
-      const cheekFlushColor = d.ethanolGrams > 0 ? '#E6A18C' : '#A3C9A8';
+      const cheekFlushColor = d.ethanolGrams > 0 ? '#F43F5E' : '#10B981';
       document.getElementById('faceLeftCheekShape').setAttribute('fill', cheekFlushColor);
       document.getElementById('faceRightCheekShape').setAttribute('fill', cheekFlushColor);
 
       const jawSebumPct = Math.min(95, Math.max(10, Math.round(((d.hasDairy ? 26 : 10) + (d.glucoseSpikeMgDl * 0.45)) * p.sebumMultiplier)));
-      const jawColor = jawSebumPct > 52 ? '#E6A18C' : jawSebumPct > 34 ? '#D9B89C' : '#A3C9A8';
+      const jawColor = jawSebumPct > 52 ? '#F43F5E' : jawSebumPct > 34 ? '#F59E0B' : '#10B981';
       document.getElementById('faceJawShape').setAttribute('fill', jawColor);
+      document.getElementById('faceJawShape').setAttribute('stroke', jawColor);
       document.getElementById('svgJawVal').textContent = `Sebum: ${jawSebumPct}%`;
 
       const foreheadCongested = state.tongueAmaPct > 28 || state.bristol <= 2 || state.buoyancy === 'sink';
-      document.getElementById('faceForeheadShape').setAttribute('fill', foreheadCongested ? '#E6A18C' : '#A3C9A8');
-      document.getElementById('svgForeheadVal').textContent = foreheadCongested ? `Ama ${state.tongueAmaPct}%` : 'Clear Glow';
+      const fhColor = foreheadCongested ? '#F59E0B' : '#10B981';
+      document.getElementById('faceForeheadShape').setAttribute('fill', fhColor);
+      document.getElementById('faceForeheadShape').setAttribute('stroke', fhColor);
+      document.getElementById('svgForeheadVal').textContent = foreheadCongested ? `Ama ${state.tongueAmaPct}%` : 'Clear';
 
-      // Glucose Curve
       const peakMg = Math.round(d.glucoseSpikeMgDl * (state.bioMode === 'Cycle' ? 1.18 : 1.0));
       const peakY = Math.max(12, 85 - (peakMg * 1.1));
       const bufferedY = Math.max(38, peakY + 24);
@@ -1488,7 +1497,7 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       document.getElementById('svgGlucoseBufferedCurve').setAttribute('d', `M15,85 Q95,${bufferedY} 165,74 T285,85`);
       document.getElementById('glucosePeakBadge').innerText = `Peak: +${peakMg} mg/dL (${85 + peakMg} mg/dL)`;
       document.getElementById('glucoseCurveAdvice').innerText = peakMg > 38
-        ? `⚠️ Glycemic excursion (+${peakMg} mg/dL) drives insulin/IGF-1 sebum activity. Tap 'Apply Bio-Fix' to flatten peak by 32%.`
+        ? `⚠️ Glycemic excursion (+${peakMg} mg/dL) drives insulin/IGF-1 sebum activity. Tap 'EXEC →' on Bio-Fix to flatten peak by 32%.`
         : `✓ Stable glycemic curve (+${peakMg} mg/dL) stays safely below the 140 mg/dL threshold.`;
     }
 
@@ -1510,7 +1519,7 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       const v1 = document.getElementById('subMetricVal1');
       const l2 = document.getElementById('subMetricLabel2');
       const v2 = document.getElementById('subMetricVal2');
-      document.getElementById('bioHackBtnText').innerText = d.bioFixApplied ? "✓ Bio-Fix Active (+Synergy Locked)" : `🌿 ${d.bioFixLabel}`;
+      document.getElementById('bioHackBtnText').innerText = d.bioFixApplied ? "✓ Bio-Fix Active (+Synergy Locked)" : `⚡ ${d.bioFixLabel}`;
 
       if (zone === 'stomach') {
         document.getElementById('gutStomachShape')?.classList.add('selected-zone');
@@ -1538,7 +1547,7 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
         document.getElementById('gutColonShape')?.classList.add('selected-zone');
         const gas = Math.round((d.colonGasMl + (state.gutSonicClicks * 1.2)) / p.motilityFactor);
         badge.innerText = "ZONE 3 • COLON & GUT-SONIC DSP";
-        liveMetric.innerText = `${state.gutSonicClicks} clicks/m • T${state.bristol}`;
+        liveMetric.innerText = `${state.gutSonicClicks} clk/m • T${state.bristol}`;
         headline.innerText = gas > 50 ? "🫧 Acoustic Fermentation Pocket" : "Smooth Peristalsis Wave";
         bio.innerText = `Combined with your ${state.gutSonicClicks} clicks/min acoustic scan and ${d.fiber}g fiber, colonic gas production is ${gas} mL/hr.`;
         l1.innerText = "Fermentation Gas"; v1.innerText = `${gas} mL/hr`;
@@ -1585,7 +1594,7 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
 
       ['gut', 'face', 'curve'].forEach(l => {
         const btn = document.getElementById(l === 'gut' ? 'subTabGut' : l === 'face' ? 'subTabFace' : 'subTabCurve');
-        if (btn) btn.className = l === lens ? "px-2.5 py-1 rounded-full bg-[#1C1B19] text-[#F4F1EA]" : "px-2.5 py-1 rounded-full text-[#78736A]";
+        if (btn) btn.className = l === lens ? "px-2.5 py-1 rounded-lg bg-cyan-500 text-slate-950 font-bold" : "px-2.5 py-1 rounded-lg text-slate-400";
       });
 
       if (lens === 'gut') {
@@ -1602,7 +1611,7 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
     }
 
     function applyInstantBioHack() {
-      const logs = JSON.parse(localStorage.getItem('aura_vx_logs') || '[]');
+      const logs = JSON.parse(localStorage.getItem('aura_vx11_logs') || '[]');
       if (logs.length === 0) return;
       const idx = state.selectedMealId ? logs.findIndex(m => m.id === state.selectedMealId) : 0;
       if (idx === -1 || logs[idx].bioFixApplied) return;
@@ -1618,7 +1627,7 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       m.ingredients.push("✨ Bio-Fix Applied");
       m.explanation = `✓ Bio-Fix Active: Antidote neutralized gastric/hepatic stress, restored mineral bioavailability to ${m.ironAbsorptionPct}%, and reduced glycemic peak by 32%.`;
 
-      localStorage.setItem('aura_vx_logs', JSON.stringify(logs));
+      localStorage.setItem('aura_vx11_logs', JSON.stringify(logs));
       renderMasterDashboard();
     }
 
@@ -1638,9 +1647,9 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
 
     function deleteMealFromHistory(event, mealId) {
       event.stopPropagation();
-      let logs = JSON.parse(localStorage.getItem('aura_vx_logs') || '[]');
+      let logs = JSON.parse(localStorage.getItem('aura_vx11_logs') || '[]');
       logs = logs.filter(m => m.id !== mealId);
-      localStorage.setItem('aura_vx_logs', JSON.stringify(logs));
+      localStorage.setItem('aura_vx11_logs', JSON.stringify(logs));
       if (state.selectedMealId === mealId) state.selectedMealId = null;
       renderMasterDashboard();
     }
@@ -1649,31 +1658,31 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       document.getElementById('mealCountLabel').innerText = logs.length;
       const container = document.getElementById('localHistoryList');
       if (logs.length === 0) {
-        container.innerHTML = `<p class="text-[11px] text-[#78736A] py-2">No meals logged. Tap <strong>+ Reset Demo</strong> above or <strong>+ Log</strong> in the header.</p>`;
+        container.innerHTML = `<p class="text-[11px] text-slate-400 py-2">No meals logged. Tap <strong>+ Reset Demo</strong> above or <strong>+ LOG</strong> in the header.</p>`;
         return;
       }
 
       container.innerHTML = logs.map(m => {
         const isSelected = state.selectedMealId === m.id;
         return `
-          <div onclick="selectMealFromHistory('${m.id}')" class="p-3 rounded-2xl border transition-all cursor-pointer ${isSelected ? 'bg-[#1C1B19] text-[#F4F1EA] border-[#1C1B19] shadow-md' : 'bg-white/95 text-[#1C1B19] border-black/10 hover:border-black/30'}">
+          <div onclick="selectMealFromHistory('${m.id}')" class="p-3 rounded-2xl border transition-all cursor-pointer ${isSelected ? 'bg-cyan-500/15 border-cyan-400 glow-cyan' : 'bento-sub hover:border-white/20'}">
             <div class="flex justify-between items-start gap-2">
               <div>
-                <span class="text-[9px] uppercase tracking-wider font-bold ${isSelected ? 'text-[#A3C9A8]' : 'text-[#4E6E58]'}">${m.time} • ${isSelected ? '🔍 ISOLATED VIEW ACTIVE' : 'TAP TO ISOLATE NUTRIENTS'}</span>
-                <h4 class="font-bold text-xs leading-snug mt-0.5">${m.dishName}</h4>
+                <span class="font-mono-tech text-[9px] uppercase tracking-wider font-bold ${isSelected ? 'text-cyan-400' : 'text-emerald-400'}">${m.time} • ${isSelected ? '🔍 ISOLATED VIEW ACTIVE' : 'TAP TO ISOLATE NUTRIENTS'}</span>
+                <h4 class="font-bold text-xs text-white leading-snug mt-0.5">${m.dishName}</h4>
               </div>
               <div class="flex items-center gap-1.5 shrink-0">
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${isSelected ? 'bg-white/20 text-white' : 'bg-black/5 text-[#1C1B19]'}">${m.calories} kcal</span>
-                <button onclick="deleteMealFromHistory(event, '${m.id}')" class="text-xs px-1.5 py-0.5 rounded hover:bg-red-500/20 text-[#9E4747]">✕</button>
+                <span class="font-mono-tech text-[10px] font-bold px-2 py-0.5 rounded-md bg-white/10 text-slate-200">${m.calories} kcal</span>
+                <button onclick="deleteMealFromHistory(event, '${m.id}')" class="text-xs px-1.5 py-0.5 rounded hover:bg-rose-500/20 text-rose-400">✕</button>
               </div>
             </div>
-            <div class="flex flex-wrap gap-2 mt-2 text-[10px] ${isSelected ? 'text-[#F4F1EA]/80' : 'text-[#78736A]'}">
-              <span>Pro: <strong>${m.protein}g</strong></span>
-              <span>Carb: <strong>${m.carbs}g</strong></span>
-              <span>Fib: <strong>${m.fiber}g</strong></span>
-              <span>Fat: <strong>${m.fat}g</strong></span>
-              ${m.ethanolGrams > 0 ? `<span class="text-[#E6A18C] font-bold">Ethanol: ${m.ethanolGrams}g</span>` : `<span>Fe: <strong>${m.iron}mg</strong></span>`}
-              <span class="ml-auto font-bold ${m.synergyScore < 80 ? 'text-[#E6A18C]' : 'text-[#4E6E58]'}">Synergy ${m.synergyScore}%</span>
+            <div class="flex flex-wrap gap-2 mt-2 font-mono-tech text-[10px] text-slate-400">
+              <span>Pro:<strong class="text-white">${m.protein}g</strong></span>
+              <span>Carb:<strong class="text-white">${m.carbs}g</strong></span>
+              <span>Fib:<strong class="text-emerald-400">${m.fiber}g</strong></span>
+              <span>Fat:<strong class="text-white">${m.fat}g</strong></span>
+              ${m.ethanolGrams > 0 ? `<span class="text-rose-400 font-bold">Ethanol:${m.ethanolGrams}g</span>` : `<span>Fe:<strong class="text-cyan-400">${m.iron}mg</strong></span>`}
+              <span class="ml-auto font-bold ${m.synergyScore < 80 ? 'text-rose-400' : 'text-emerald-400'}">Syn ${m.synergyScore}%</span>
             </div>
           </div>
         `;
@@ -1686,8 +1695,8 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       ['Peak', 'Anabolic', 'Focus', 'Cycle'].forEach(m => {
         const el = document.getElementById(`mode-${m}`);
         if (el) el.className = m === mode
-          ? "px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#1C1B19] text-[#F4F1EA] shrink-0 transition-all"
-          : "px-2.5 py-1 rounded-full text-[10px] font-medium text-[#78736A] shrink-0 transition-all";
+          ? "px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-500 text-slate-950 shrink-0 transition-all"
+          : "px-2.5 py-1 rounded-lg text-[10px] font-medium text-slate-400 shrink-0 transition-all";
       });
       renderMasterDashboard();
     }
@@ -1697,8 +1706,8 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
       localStorage.setItem('aura_bristol', type);
       [2, 4, 5, 6].forEach(t => {
         document.getElementById(`peb-${t}`).className = t === type
-          ? "p-2 rounded-xl bg-[#1C1B19] text-white text-[10px] font-bold"
-          : "p-2 rounded-xl bg-white border border-black/10 text-[10px] font-bold";
+          ? "p-2 rounded-xl bg-emerald-500 text-slate-950 text-[10px] font-extrabold"
+          : "p-2 rounded-xl bg-[#090A0F] border border-white/10 text-slate-400 text-[10px] font-bold";
       });
       renderMasterDashboard();
     }
@@ -1706,13 +1715,13 @@ Return ONLY a JSON array of up to 10 objects ranked by matchScore:
     function selectBuoyancy(mode) {
       state.buoyancy = mode;
       localStorage.setItem('aura_buoyancy', mode);
-      document.getElementById('buoy-float').className = mode === 'float' ? "py-2 rounded-xl bg-[#1C1B19] text-white text-[10px] font-semibold" : "py-2 rounded-xl bg-white border border-black/10 text-[10px] font-semibold";
-      document.getElementById('buoy-sink').className = mode === 'sink' ? "py-2 rounded-xl bg-[#1C1B19] text-white text-[10px] font-semibold" : "py-2 rounded-xl bg-white border border-black/10 text-[10px] font-semibold";
+      document.getElementById('buoy-float').className = mode === 'float' ? "py-2 rounded-xl bg-cyan-500 text-slate-950 text-[10px] font-extrabold" : "py-2 rounded-xl bg-[#090A0F] border border-white/10 text-slate-400 text-[10px] font-bold";
+      document.getElementById('buoy-sink').className = mode === 'sink' ? "py-2 rounded-xl bg-cyan-500 text-slate-950 text-[10px] font-extrabold" : "py-2 rounded-xl bg-[#090A0F] border border-white/10 text-slate-400 text-[10px] font-bold";
       renderMasterDashboard();
     }
 
     function clearLocalVault() {
-      localStorage.setItem('aura_vx_logs', '[]');
+      localStorage.setItem('aura_vx11_logs', '[]');
       state.selectedMealId = null;
       renderMasterDashboard();
     }
